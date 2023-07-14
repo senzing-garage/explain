@@ -23,7 +23,7 @@ Explain an aspect of Senzing.
 var (
 	envarExplainError  = "SENZING_TOOLS_EXPLAIN_ERROR"
 	helpExplainError   = "Give an explanation of a specific Senzing error [%s]"
-	optionExplainError = "explain-error"
+	optionExplainError = "error"
 )
 
 // ----------------------------------------------------------------------------
