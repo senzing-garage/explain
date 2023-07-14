@@ -6,79 +6,41 @@ import (
 	"context"
 	"os"
 
-	"github.com/senzing/explain/examplepackage"
+	"github.com/senzing/explain/explainer"
 	"github.com/senzing/senzing-tools/cmdhelper"
-	"github.com/senzing/senzing-tools/envar"
-	"github.com/senzing/senzing-tools/help"
-	"github.com/senzing/senzing-tools/option"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 const (
-	Short string = "explain short description"
+	Short string = "provide an explanation"
 	Use   string = "explain"
 	Long  string = `
-explain long description.
+Explain an aspect of Senzing.
     `
+)
+
+var (
+	envarExplainError  = "SENZING_TOOLS_EXPLAIN_ERROR"
+	helpExplainError   = "Give an explanation of a specific Senzing error [%s]"
+	optionExplainError = "explain-error"
 )
 
 // ----------------------------------------------------------------------------
 // Context variables
 // ----------------------------------------------------------------------------
 
-var ContextBools = []cmdhelper.ContextBool{
-	{
-		Default: cmdhelper.OsLookupEnvBool(envar.EnableAll, false),
-		Envar:   envar.EnableAll,
-		Help:    help.EnableAll,
-		Option:  option.EnableAll,
-	},
-}
-
-var ContextInts = []cmdhelper.ContextInt{
-	{
-		Default: cmdhelper.OsLookupEnvInt(envar.EngineLogLevel, 0),
-		Envar:   envar.EngineLogLevel,
-		Help:    help.EngineLogLevel,
-		Option:  option.EngineLogLevel,
-	},
-}
-
 var ContextStrings = []cmdhelper.ContextString{
 	{
-		Default: cmdhelper.OsLookupEnvString(envar.Configuration, ""),
-		Envar:   envar.Configuration,
-		Help:    help.Configuration,
-		Option:  option.Configuration,
-	},
-	{
-		Default: cmdhelper.OsLookupEnvString(envar.EngineConfigurationJson, ""),
-		Envar:   envar.EngineConfigurationJson,
-		Help:    help.EngineConfigurationJson,
-		Option:  option.EngineConfigurationJson,
-	},
-	{
-		Default: cmdhelper.OsLookupEnvString(envar.LogLevel, "INFO"),
-		Envar:   envar.LogLevel,
-		Help:    help.LogLevel,
-		Option:  option.LogLevel,
-	},
-}
-
-var ContextStringSlices = []cmdhelper.ContextStringSlice{
-	{
-		Default: []string{},
-		Envar:   envar.XtermAllowedHostnames,
-		Help:    help.XtermAllowedHostnames,
-		Option:  option.XtermAllowedHostnames,
+		Default: cmdhelper.OsLookupEnvString(envarExplainError, ""),
+		Envar:   envarExplainError,
+		Help:    helpExplainError,
+		Option:  optionExplainError,
 	},
 }
 
 var ContextVariables = &cmdhelper.ContextVariables{
-	Bools:        append(ContextBools, ContextBoolsForOsArch...),
-	Ints:         append(ContextInts, ContextIntsForForOsArch...),
-	Strings:      append(ContextStrings, ContextStringsForOsArch...),
-	StringSlices: append(ContextStringSlices, ContextStringSlicesForOsArch...),
+	Strings: append(ContextStrings, ContextStringsForOsArch...),
 }
 
 // ----------------------------------------------------------------------------
@@ -110,13 +72,21 @@ func PreRun(cobraCommand *cobra.Command, args []string) {
 
 // Used in construction of cobra.Command
 func RunE(_ *cobra.Command, _ []string) error {
-	var err error = nil
 	ctx := context.Background()
-	examplePackage := &examplepackage.ExamplePackageImpl{
-		Something: "Main says 'Hi!'",
+	var anExplainer explainer.Explainer
+
+	// Choose explainer.
+
+	if len(viper.GetString(optionExplainError)) > 0 {
+		anExplainer = &explainer.ExplainerError{
+			ErrorMessage: viper.GetString(optionExplainError),
+		}
+	} else {
+		anExplainer = &explainer.ExplainerNull{}
+
 	}
-	err = examplePackage.SaySomething(ctx)
-	return err
+
+	return anExplainer.Explain(ctx)
 }
 
 // Used in construction of cobra.Command

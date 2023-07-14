@@ -1,30 +1,34 @@
-package examplepackage
+package explainer
 
 import (
 	"context"
+	"errors"
 )
 
 // ----------------------------------------------------------------------------
 // Types
 // ----------------------------------------------------------------------------
 
-// The ExamplePackage interface is an example interface.
-type ExamplePackage interface {
-	SaySomething(ctx context.Context) error
+// ExplainError is an example type-struct.
+type ExplainerNull struct {
 }
 
 // ----------------------------------------------------------------------------
 // Constants
 // ----------------------------------------------------------------------------
 
-// An example constant.
-const ExampleConstant = 1
+// const exampleConstant = "examplePackage"
 
 // ----------------------------------------------------------------------------
-// Variables
+// Interface methods
 // ----------------------------------------------------------------------------
 
-// An example variable.
-var ExampleVariable = map[int]string{
-	1: "Just a string",
+/*
+The Explain method simply returns an error to drive the "Usage" output by the caller.
+
+Input
+  - ctx: A context to control lifecycle.
+*/
+func (explainer *ExplainerNull) Explain(ctx context.Context) error {
+	return errors.New("need to specify an '--explain-xxxxx' option")
 }

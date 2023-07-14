@@ -1,4 +1,4 @@
-package examplepackage
+package explainer
 
 import (
 	"context"
@@ -41,12 +41,12 @@ func teardown() error {
 // Test interface functions
 // ----------------------------------------------------------------------------
 
-func TestExamplePackageImpl_SaySomething(test *testing.T) {
+func TestExplainerError(test *testing.T) {
 	ctx := context.TODO()
-	testObject := &ExamplePackageImpl{
-		Something: "I'm here",
+	testObject := &ExplainerError{
+		ErrorMessage: "senzing-12345678",
 	}
-	err := testObject.SaySomething(ctx)
+	err := testObject.Explain(ctx)
 	assert.Nil(test, err)
 }
 
@@ -54,13 +54,13 @@ func TestExamplePackageImpl_SaySomething(test *testing.T) {
 // Examples for godoc documentation
 // ----------------------------------------------------------------------------
 
-func ExampleExamplePackageImpl_SaySomething() {
+func ExampleExplainerError() {
 	// For more information, visit https://github.com/Senzing/explain/blob/main/examplepackage/examplepackage_test.go
 	ctx := context.TODO()
-	examplePackage := &ExamplePackageImpl{
-		Something: "I'm here",
+	explainer := &ExplainerError{
+		ErrorMessage: "senzing-12345678",
 	}
-	examplePackage.SaySomething(ctx)
+	explainer.Explain(ctx)
 	//Output:
 	//examplePackage: I'm here
 }
