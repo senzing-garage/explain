@@ -30,5 +30,5 @@ Input
   - ctx: A context to control lifecycle.
 */
 func (explainer *ExplainerNull) Explain(ctx context.Context) error {
-	return errors.New("need to specify an option (e.g. '--error')")
+	return errors.New("need to specify an option (e.g. '--error-id')")
 }

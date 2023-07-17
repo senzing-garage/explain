@@ -3,10 +3,10 @@ package explainer
 import (
 	"context"
 	"fmt"
-	"os/exec"
-	"runtime"
 	"strconv"
 	"strings"
+
+	"github.com/pkg/browser"
 )
 
 // ----------------------------------------------------------------------------
@@ -15,32 +15,8 @@ import (
 
 // ExplainError is an example type-struct.
 type ExplainerError struct {
-	ErrorMessage string
-}
-
-// ----------------------------------------------------------------------------
-// Constants
-// ----------------------------------------------------------------------------
-
-// const exampleConstant = "examplePackage"
-
-// ----------------------------------------------------------------------------
-// private functions
-// ----------------------------------------------------------------------------
-
-func openBrowser(url string) error {
-	var err error = nil
-	switch runtime.GOOS {
-	case "linux":
-		err = exec.Command("xdg-open", url).Start()
-	case "windows":
-		err = exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Start()
-	case "darwin":
-		err = exec.Command("open", url).Start()
-	default:
-		err = fmt.Errorf("unsupported platform")
-	}
-	return err
+	ErrorId string
+	TtyOnly bool
 }
 
 // ----------------------------------------------------------------------------
@@ -83,19 +59,24 @@ Output
 */
 func (explainer *ExplainerError) Explain(ctx context.Context) error {
 
-	componentId, errorNumber, err := ParseErrorMessage(explainer.ErrorMessage)
+	componentId, errorNumber, err := ParseErrorMessage(explainer.ErrorId)
 	if err != nil {
 		return err
 	}
 
 	webpage, ok := ComponentId2WebPage[componentId]
 	if !ok {
-		return fmt.Errorf("no information for --error-message %s", explainer.ErrorMessage)
+		return fmt.Errorf("no information for --error-message %s", explainer.ErrorId)
 	}
 
 	explainUrl := fmt.Sprintf("https://%s#senzing-%d", webpage, errorNumber)
 
 	fmt.Printf("For information on that error, visit %s\n", explainUrl)
-	err = openBrowser(explainUrl)
+
+	// Reference: https://gist.github.com/hyg/9c4afcd91fe24316cbf0
+
+	if !explainer.TtyOnly {
+		err = browser.OpenURL(explainUrl)
+	}
 	return err
 }

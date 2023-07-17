@@ -12,7 +12,7 @@ import (
 // Test interface functions
 // ----------------------------------------------------------------------------
 
-func TestExplainerError(test *testing.T) {
+func TestExplainerNull(test *testing.T) {
 	ctx := context.TODO()
 	testObject := &explainer.ExplainerError{
 		ErrorId: "senzing-60010000",
@@ -26,7 +26,7 @@ func TestExplainerError(test *testing.T) {
 // Examples for godoc documentation
 // ----------------------------------------------------------------------------
 
-func ExampleExplainerError() {
+func ExampleExplainerNull() {
 	// For more information, visit https://github.com/Senzing/explain/blob/main/explainer/explainer_error_test.go
 	ctx := context.TODO()
 	explainer := &explainer.ExplainerError{

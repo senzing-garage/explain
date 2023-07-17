@@ -21,9 +21,12 @@ Explain an aspect of Senzing.
 )
 
 var (
-	envarExplainError  = "SENZING_TOOLS_EXPLAIN_ERROR"
-	helpExplainError   = "Give an explanation of a specific Senzing error [%s]"
-	optionExplainError = "error"
+	envarErrorId  = "SENZING_TOOLS_ERROR_ID"
+	helpErrorId   = "Give an explanation of a specific Senzing error [%s]"
+	optionErrorId = "error-id"
+	envarTtyOnly  = "SENZING_TOOLS_TTY_ONLY"
+	helpTtyOnly   = "Output confined to terminal (TTY) [%s]"
+	optionTtyOnly = "tty-only"
 )
 
 // ----------------------------------------------------------------------------
@@ -32,15 +35,25 @@ var (
 
 var ContextStrings = []cmdhelper.ContextString{
 	{
-		Default: cmdhelper.OsLookupEnvString(envarExplainError, ""),
-		Envar:   envarExplainError,
-		Help:    helpExplainError,
-		Option:  optionExplainError,
+		Default: cmdhelper.OsLookupEnvString(envarErrorId, ""),
+		Envar:   envarErrorId,
+		Help:    helpErrorId,
+		Option:  optionErrorId,
+	},
+}
+
+var ContextBools = []cmdhelper.ContextBool{
+	{
+		Default: cmdhelper.OsLookupEnvBool(envarTtyOnly, false),
+		Envar:   envarTtyOnly,
+		Help:    helpTtyOnly,
+		Option:  optionTtyOnly,
 	},
 }
 
 var ContextVariables = &cmdhelper.ContextVariables{
 	Strings: append(ContextStrings, ContextStringsForOsArch...),
+	Bools:   append(ContextBools, ContextBoolsForOsArch...),
 }
 
 // ----------------------------------------------------------------------------
@@ -77,13 +90,13 @@ func RunE(_ *cobra.Command, _ []string) error {
 
 	// Choose explainer.
 
-	if len(viper.GetString(optionExplainError)) > 0 {
+	if len(viper.GetString(optionErrorId)) > 0 {
 		anExplainer = &explainer.ExplainerError{
-			ErrorMessage: viper.GetString(optionExplainError),
+			ErrorId: viper.GetString(optionErrorId),
+			TtyOnly: viper.GetBool(optionTtyOnly),
 		}
 	} else {
 		anExplainer = &explainer.ExplainerNull{}
-
 	}
 
 	return anExplainer.Explain(ctx)
