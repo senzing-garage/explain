@@ -28,7 +28,7 @@ type ExplainerError struct {
 // private functions
 // ----------------------------------------------------------------------------
 
-func openbrowser(url string) error {
+func openBrowser(url string) error {
 	var err error = nil
 	switch runtime.GOOS {
 	case "linux":
@@ -96,6 +96,6 @@ func (explainer *ExplainerError) Explain(ctx context.Context) error {
 	explainUrl := fmt.Sprintf("https://%s#senzing-%d", webpage, errorNumber)
 
 	fmt.Printf("For information on that error, visit %s\n", explainUrl)
-	err = openbrowser(explainUrl)
+	err = openBrowser(explainUrl)
 	return err
 }
