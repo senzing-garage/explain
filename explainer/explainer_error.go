@@ -3,6 +3,8 @@ package explainer
 import (
 	"context"
 	"fmt"
+	"os/exec"
+	"runtime"
 	"strconv"
 	"strings"
 )
@@ -21,6 +23,25 @@ type ExplainerError struct {
 // ----------------------------------------------------------------------------
 
 // const exampleConstant = "examplePackage"
+
+// ----------------------------------------------------------------------------
+// private functions
+// ----------------------------------------------------------------------------
+
+func openbrowser(url string) error {
+	var err error = nil
+	switch runtime.GOOS {
+	case "linux":
+		err = exec.Command("xdg-open", url).Start()
+	case "windows":
+		err = exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Start()
+	case "darwin":
+		err = exec.Command("open", url).Start()
+	default:
+		err = fmt.Errorf("unsupported platform")
+	}
+	return err
+}
 
 // ----------------------------------------------------------------------------
 // Public functions
@@ -72,6 +93,9 @@ func (explainer *ExplainerError) Explain(ctx context.Context) error {
 		return fmt.Errorf("no information for --error-message %s", explainer.ErrorMessage)
 	}
 
-	fmt.Printf("For information on that error, visit http://%s#%d\n", webpage, errorNumber)
-	return nil
+	explainUrl := fmt.Sprintf("https://%s#senzing-%d", webpage, errorNumber)
+
+	fmt.Printf("For information on that error, visit %s\n", explainUrl)
+	err = openbrowser(explainUrl)
+	return err
 }
