@@ -7,7 +7,8 @@ import (
 	"os"
 
 	"github.com/senzing/explain/explainer"
-	"github.com/senzing/senzing-tools/cmdhelper"
+	"github.com/senzing/go-cmdhelping/cmdhelper"
+	"github.com/senzing/go-cmdhelping/option"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -20,41 +21,16 @@ Explain an aspect of Senzing.
     `
 )
 
-var (
-	envarErrorId  = "SENZING_TOOLS_ERROR_ID"
-	helpErrorId   = "Give an explanation of a specific Senzing error [%s]"
-	optionErrorId = "error-id"
-	envarTtyOnly  = "SENZING_TOOLS_TTY_ONLY"
-	helpTtyOnly   = "Output confined to terminal (TTY) [%s]"
-	optionTtyOnly = "tty-only"
-)
-
 // ----------------------------------------------------------------------------
 // Context variables
 // ----------------------------------------------------------------------------
 
-var ContextStrings = []cmdhelper.ContextString{
-	{
-		Default: cmdhelper.OsLookupEnvString(envarErrorId, ""),
-		Envar:   envarErrorId,
-		Help:    helpErrorId,
-		Option:  optionErrorId,
-	},
+var ContextVariablesForMultiPlatform = []option.ContextVariable{
+	option.ErrorId,
+	option.TtyOnly,
 }
 
-var ContextBools = []cmdhelper.ContextBool{
-	{
-		Default: cmdhelper.OsLookupEnvBool(envarTtyOnly, false),
-		Envar:   envarTtyOnly,
-		Help:    helpTtyOnly,
-		Option:  optionTtyOnly,
-	},
-}
-
-var ContextVariables = &cmdhelper.ContextVariables{
-	Strings: append(ContextStrings, ContextStringsForOsArch...),
-	Bools:   append(ContextBools, ContextBoolsForOsArch...),
-}
+var ContextVariables = append(ContextVariablesForMultiPlatform, ContextVariablesForOsArch...)
 
 // ----------------------------------------------------------------------------
 // Private functions
@@ -62,7 +38,7 @@ var ContextVariables = &cmdhelper.ContextVariables{
 
 // Since init() is always invoked, define command line parameters.
 func init() {
-	cmdhelper.Init(RootCmd, *ContextVariables)
+	cmdhelper.Init(RootCmd, ContextVariables)
 }
 
 // ----------------------------------------------------------------------------
@@ -80,7 +56,7 @@ func Execute() {
 
 // Used in construction of cobra.Command
 func PreRun(cobraCommand *cobra.Command, args []string) {
-	cmdhelper.PreRun(cobraCommand, args, Use, *ContextVariables)
+	cmdhelper.PreRun(cobraCommand, args, Use, ContextVariables)
 }
 
 // Used in construction of cobra.Command
@@ -88,17 +64,16 @@ func RunE(_ *cobra.Command, _ []string) error {
 	ctx := context.Background()
 	var anExplainer explainer.Explainer
 
-	// Choose explainer.
+	// Choose and run explainer.
 
-	if len(viper.GetString(optionErrorId)) > 0 {
+	if len(viper.GetString(option.ErrorId.Arg)) > 0 {
 		anExplainer = &explainer.ExplainerError{
-			ErrorId: viper.GetString(optionErrorId),
-			TtyOnly: viper.GetBool(optionTtyOnly),
+			ErrorId: viper.GetString(option.ErrorId.Arg),
+			TtyOnly: viper.GetBool(option.TtyOnly.Arg),
 		}
 	} else {
 		anExplainer = &explainer.ExplainerNull{}
 	}
-
 	return anExplainer.Explain(ctx)
 }
 
