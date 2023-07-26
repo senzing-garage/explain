@@ -8,6 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.3] - 2023-07-26
+
+### Changed in 0.1.3
+
+## [0.1.2] - 2023-07-26
+
+### Changed in 0.1.2
+
+- In `Dockerfile` updated to `golang:1.20.6`
+- Prepare for multi-platform
+
 ## [0.1.1] - 2023-07-21
 
 ### Changed in 0.1.1
