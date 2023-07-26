@@ -67,9 +67,9 @@ ARG GO_PACKAGE_NAME
 
 # Copy files from prior stage.
 
-COPY --from=go_builder "/output/darwin/*"   "/output/darwin/"
-COPY --from=go_builder "/output/linux/*"    "/output/linux/"
-COPY --from=go_builder "/output/windows/*"  "/output/linux/"
+COPY --from=go_builder "/output/darwin-amd64/*"   "/output/darwin-amd64/"
+COPY --from=go_builder "/output/linux-amd64/*"    "/output/linux-amd64/"
+COPY --from=go_builder "/output/windows-amd64/*"  "/output/windows-amd64/"
 
 # Create Linux RPM package.
 
@@ -80,7 +80,7 @@ RUN fpm \
       --package /output/${PROGRAM_NAME}-${BUILD_VERSION}.rpm \
       --version ${BUILD_VERSION} \
       --iteration ${BUILD_ITERATION} \
-      /output/linux=/usr/bin
+      /output/linux-amd64/=/usr/bin
 
 # Create Linux DEB package.
 
@@ -92,7 +92,7 @@ RUN fpm \
       --output-type deb \
       --package /output/${PROGRAM_NAME}-${BUILD_VERSION}.deb \
       --version ${BUILD_VERSION} \
-      /output/linux/=/usr/bin
+      /output/linux-amd64/=/usr/bin
 
 # Create Darwin osxpkg package.
 
@@ -105,6 +105,10 @@ RUN fpm \
 #       --package /output/${PROGRAM_NAME}-${BUILD_VERSION}.pkg \
 #       --version ${BUILD_VERSION} \
 #       /output/darwin/=/usr/bin
+
+RUN
+RUN ls /output
+RUN ls /output/windows-amd64
 
 # -----------------------------------------------------------------------------
 # Stage: final
@@ -122,7 +126,9 @@ ARG PROGRAM_NAME
 
 # Copy files from prior step.
 
-COPY --from=fpm_builder "/output/linux/${PROGRAM_NAME}" "/output/linux/${PROGRAM_NAME}"
-COPY --from=fpm_builder "/output/*"                     "/output/"
+COPY --from=fpm_builder "/output/*"                                  "/output/"
+COPY --from=fpm_builder "/output/darwin-amd64/${PROGRAM_NAME}"       "/output/darwin-amd64/${PROGRAM_NAME}"
+COPY --from=fpm_builder "/output/linux-amd64/${PROGRAM_NAME}"        "/output/linux-amd64/${PROGRAM_NAME}"
+COPY --from=fpm_builder "/output/windows-amd64/${PROGRAM_NAME}.exe"  "/output/windows-amd64/${PROGRAM_NAME}.exe"
 
 CMD ["/bin/bash"]

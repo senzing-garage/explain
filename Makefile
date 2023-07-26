@@ -56,11 +56,11 @@ dependencies:
 
 
 .PHONY: build
-build: build-darwin build-linux build-scratch build-windows
+build: build-darwin-amd64 build-linux-amd64 build-scratch build-windows-amd64
 
 
 .PHONY: build-darwin
-build-darwin:
+build-darwin-amd64:
 	@GOOS=darwin \
 	GOARCH=amd64 \
 	go build \
@@ -70,12 +70,12 @@ build-darwin:
 			-X 'main.programName=${PROGRAM_NAME}' \
 			" \
 		-o $(GO_PACKAGE_NAME)
-	@mkdir -p $(TARGET_DIRECTORY)/darwin || true
-	@mv $(GO_PACKAGE_NAME) $(TARGET_DIRECTORY)/darwin
+	@mkdir -p $(TARGET_DIRECTORY)/darwin-amd64 || true
+	@mv $(GO_PACKAGE_NAME) $(TARGET_DIRECTORY)/darwin-amd64
 
 
-.PHONY: build-linux
-build-linux:
+.PHONY: build-linux-amd64
+build-linux-amd64:
 	@GOOS=linux \
 	GOARCH=amd64 \
 	go build \
@@ -85,8 +85,8 @@ build-linux:
 			-X 'main.programName=${PROGRAM_NAME}' \
 			" \
 		-o $(GO_PACKAGE_NAME)
-	@mkdir -p $(TARGET_DIRECTORY)/linux || true
-	@mv $(GO_PACKAGE_NAME) $(TARGET_DIRECTORY)/linux
+	@mkdir -p $(TARGET_DIRECTORY)/linux-amd64 || true
+	@mv $(GO_PACKAGE_NAME) $(TARGET_DIRECTORY)/linux-amd64
 
 
 .PHONY: build-scratch
@@ -109,8 +109,8 @@ build-scratch:
 	@mv $(GO_PACKAGE_NAME) $(TARGET_DIRECTORY)/scratch
 
 
-.PHONY: build-windows
-build-windows:
+.PHONY: build-windows-amd64
+build-windows-amd64:
 	@GOOS=windows \
 	GOARCH=amd64 \
 	go build \
@@ -120,8 +120,8 @@ build-windows:
 			-X 'main.programName=${PROGRAM_NAME}' \
 			" \
 		-o $(GO_PACKAGE_NAME).exe
-	@mkdir -p $(TARGET_DIRECTORY)/windows || true
-	@mv $(GO_PACKAGE_NAME).exe $(TARGET_DIRECTORY)/windows
+	@mkdir -p $(TARGET_DIRECTORY)/windows-amd64 || true
+	@mv $(GO_PACKAGE_NAME).exe $(TARGET_DIRECTORY)/windows-amd64
 
 
 # -----------------------------------------------------------------------------
