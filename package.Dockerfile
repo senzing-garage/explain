@@ -106,10 +106,6 @@ RUN fpm \
 #       --version ${BUILD_VERSION} \
 #       /output/darwin/=/usr/bin
 
-RUN
-RUN ls /output
-RUN ls /output/windows-amd64
-
 # -----------------------------------------------------------------------------
 # Stage: final
 # -----------------------------------------------------------------------------
