@@ -2,8 +2,8 @@
 # Stages
 # -----------------------------------------------------------------------------
 
-ARG IMAGE_GO_BUILDER=golang:1.20.0
-ARG IMAGE_FINAL=senzing/senzingapi-runtime:3.4.2
+ARG IMAGE_GO_BUILDER=golang:1.20.6
+ARG IMAGE_FINAL=senzing/senzingapi-runtime:3.6.0
 
 # -----------------------------------------------------------------------------
 # Stage: go_builder
@@ -12,7 +12,7 @@ ARG IMAGE_FINAL=senzing/senzingapi-runtime:3.4.2
 # define where we need to copy senzing files from
 FROM ${IMAGE_FINAL} as senzing-runtime
 FROM ${IMAGE_GO_BUILDER} as go_builder
-ENV REFRESHED_AT=2023-02-22
+ENV REFRESHED_AT=2023-07-26
 LABEL Name="senzing/explain-builder" \
       Maintainer="support@senzing.com" \
       Version="0.0.5"
@@ -61,14 +61,14 @@ RUN mkdir -p /output \
 # -----------------------------------------------------------------------------
 
 FROM ${IMAGE_FINAL} as final
-ENV REFRESHED_AT=2023-02-22
+ENV REFRESHED_AT=2023-07-26
 LABEL Name="senzing/explain" \
       Maintainer="support@senzing.com" \
       Version="0.0.5"
 
 # Copy files from prior step.
 
-COPY --from=go_builder "/output/linux/explain" "/app/explain"
+COPY --from=go_builder "/output/linux-amd64/explain" "/app/explain"
 
 # Runtime environment variables.
 
