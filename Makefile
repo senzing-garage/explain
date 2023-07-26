@@ -1,5 +1,8 @@
 # Makefile for explain.
 
+# Detect the operating system and architecture
+include Makefile.osdetect
+
 # "Simple expanded" variables (':=')
 
 # PROGRAM_NAME is the name of the GIT repository.
@@ -15,6 +18,10 @@ BUILD_TAG := $(shell git describe --always --tags --abbrev=0  | sed 's/v//')
 BUILD_ITERATION := $(shell git log $(BUILD_TAG)..HEAD --oneline | wc -l | sed 's/^ *//')
 GIT_REMOTE_URL := $(shell git config --get remote.origin.url)
 GO_PACKAGE_NAME := $(shell echo $(GIT_REMOTE_URL) | sed -e 's|^git@github.com:|github.com/|' -e 's|\.git$$||' -e 's|Senzing|senzing|')
+
+# Optionally include platform-specific settings
+-include Makefile.$(OSTYPE)
+-include Makefile.$(OSTYPE)_$(OSARCH)
 
 # Recursive assignment ('=')
 
@@ -49,7 +56,22 @@ dependencies:
 
 
 .PHONY: build
-build: build-linux
+build: build-darwin build-linux build-scratch build-windows
+
+
+.PHONY: build-darwin
+build-darwin:
+	@GOOS=darwin \
+	GOARCH=amd64 \
+	go build \
+		-ldflags \
+			"-X 'main.buildIteration=${BUILD_ITERATION}' \
+			-X 'main.buildVersion=${BUILD_VERSION}' \
+			-X 'main.programName=${PROGRAM_NAME}' \
+			" \
+		-o $(GO_PACKAGE_NAME)
+	@mkdir -p $(TARGET_DIRECTORY)/darwin || true
+	@mv $(GO_PACKAGE_NAME) $(TARGET_DIRECTORY)/darwin
 
 
 .PHONY: build-linux
@@ -85,6 +107,22 @@ build-scratch:
 		-o $(GO_PACKAGE_NAME)
 	@mkdir -p $(TARGET_DIRECTORY)/scratch || true
 	@mv $(GO_PACKAGE_NAME) $(TARGET_DIRECTORY)/scratch
+
+
+.PHONY: build-windows
+build-windows:
+	@GOOS=windows \
+	GOARCH=amd64 \
+	go build \
+		-ldflags \
+			"-X 'main.buildIteration=${BUILD_ITERATION}' \
+			-X 'main.buildVersion=${BUILD_VERSION}' \
+			-X 'main.programName=${PROGRAM_NAME}' \
+			" \
+		-o $(GO_PACKAGE_NAME).exe
+	@mkdir -p $(TARGET_DIRECTORY)/windows || true
+	@mv $(GO_PACKAGE_NAME).exe $(TARGET_DIRECTORY)/windows
+
 
 # -----------------------------------------------------------------------------
 # Test
@@ -186,4 +224,4 @@ print-make-variables:
 help:
 	@echo "Build $(PROGRAM_NAME) version $(BUILD_VERSION)-$(BUILD_ITERATION)".
 	@echo "All targets:"
-	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$' | xargs
+	@$(MAKE) -pRrq -f $(firstword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$' | xargs

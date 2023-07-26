@@ -2,7 +2,7 @@
 # Stages
 # -----------------------------------------------------------------------------
 
-ARG IMAGE_GO_BUILDER=golang:1.20.0
+ARG IMAGE_GO_BUILDER=golang:1.20.6
 ARG IMAGE_FPM_BUILDER=dockter/fpm:latest
 ARG IMAGE_FINAL=alpine
 
@@ -11,10 +11,10 @@ ARG IMAGE_FINAL=alpine
 # -----------------------------------------------------------------------------
 
 FROM ${IMAGE_GO_BUILDER} as go_builder
-ENV REFRESHED_AT=2023-02-22
+ENV REFRESHED_AT=2023-07-26
 LABEL Name="senzing/explain-builder" \
       Maintainer="support@senzing.com" \
-      Version="0.0.5"
+      Version="0.1.1"
 
 # Build arguments.
 
@@ -53,10 +53,10 @@ RUN mkdir -p /output \
 # -----------------------------------------------------------------------------
 
 FROM ${IMAGE_FPM_BUILDER} as fpm_builder
-ENV REFRESHED_AT=2023-02-22
+ENV REFRESHED_AT=2023-07-26
 LABEL Name="senzing/explain-fpm-builder" \
       Maintainer="support@senzing.com" \
-      Version="0.0.5"
+      Version="0.1.1"
 
 # Use arguments from prior stage.
 
@@ -67,9 +67,11 @@ ARG GO_PACKAGE_NAME
 
 # Copy files from prior stage.
 
-COPY --from=go_builder "/output/linux/*"       "/output/linux/"
+COPY --from=go_builder "/output/darwin/*"   "/output/darwin/"
+COPY --from=go_builder "/output/linux/*"    "/output/linux/"
+COPY --from=go_builder "/output/windows/*"  "/output/linux/"
 
-# Create RPM package.
+# Create Linux RPM package.
 
 RUN fpm \
       --input-type dir \
@@ -80,7 +82,7 @@ RUN fpm \
       --iteration ${BUILD_ITERATION} \
       /output/linux=/usr/bin
 
-# Create DEB package.
+# Create Linux DEB package.
 
 RUN fpm \
       --deb-no-default-config-files \
@@ -91,6 +93,18 @@ RUN fpm \
       --package /output/${PROGRAM_NAME}-${BUILD_VERSION}.deb \
       --version ${BUILD_VERSION} \
       /output/linux/=/usr/bin
+
+# Create Darwin osxpkg package.
+
+# RUN fpm \
+#       --input-type dir \
+#       --iteration ${BUILD_ITERATION} \
+#       --name ${PROGRAM_NAME} \
+#       --osxpkg-identifier-prefix com.senzing \
+#       --output-type osxpkg \
+#       --package /output/${PROGRAM_NAME}-${BUILD_VERSION}.pkg \
+#       --version ${BUILD_VERSION} \
+#       /output/darwin/=/usr/bin
 
 # -----------------------------------------------------------------------------
 # Stage: final
