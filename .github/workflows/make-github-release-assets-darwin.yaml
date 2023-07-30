@@ -1,17 +1,16 @@
 name: make-github-release-assets-darwin.yaml
 
-on: [push]
+# on: [push]
 
-# on:
-#   push:
-#     tags:
-#       - "[0-9]+.[0-9]+.[0-9]+"
+on:
+  push:
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+"
 
 jobs:
   build:
-    name: Publish binaries
+    name: Publish binaries - darwin
     runs-on: macos-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -28,4 +27,3 @@ jobs:
           file: /Users/runner/work/explain/explain/Senzing-Tools-Application-Installer.dmg
           tag: ${{ github.ref }}
           overwrite: true
-          body: "This is my release text"

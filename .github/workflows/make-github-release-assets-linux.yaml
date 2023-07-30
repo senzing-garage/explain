@@ -7,15 +7,13 @@ on:
 
 jobs:
   build:
-    name: Publish binaries
+    name: Publish binaries - linux
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Make RPM/DEB files
         run: make package
-      - name: Make .dmg file
-        run: create-dmg  --app-drop-link 0 40 "Senzing-tools-Application-Installer  "target/darwin-amd64/"
       - name: Upload versioned packages to release assets
         uses: svenstaro/upload-release-action@v2
         with:
@@ -24,26 +22,3 @@ jobs:
           file_glob: true
           tag: ${{ github.ref }}
           overwrite: true
-      - name: Upload Darwin file to release assets
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: target/darwin-amd64/explain
-          tag: ${{ github.ref }}
-          overwrite: true
-      - name: Upload Windows file to release assets
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: target/windows-amd64/explain.exe
-          tag: ${{ github.ref }}
-          overwrite: true
-      - name: Upload binaries to release
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: /Users/runner/work/test-ground/test-ground/MJD-Application-Installer.dmg
-          asset_name: bob7.dmg
-          tag: ${{ github.ref }}
-          overwrite: true
-          body: "This is my release text"

@@ -94,17 +94,10 @@ RUN fpm \
       --version ${BUILD_VERSION} \
       /output/linux-amd64/=/usr/bin
 
-# Create Darwin osxpkg package.
-
-# RUN fpm \
-#       --input-type dir \
-#       --iteration ${BUILD_ITERATION} \
-#       --name ${PROGRAM_NAME} \
-#       --osxpkg-identifier-prefix com.senzing \
-#       --output-type osxpkg \
-#       --package /output/${PROGRAM_NAME}-${BUILD_VERSION}.pkg \
-#       --version ${BUILD_VERSION} \
-#       /output/darwin/=/usr/bin
+RUN ls /output/
+RUN ls /output/darwin-amd64
+RUN ls /output/linux-amd64
+RUN ls /output/windows-amd64
 
 # -----------------------------------------------------------------------------
 # Stage: final
@@ -122,9 +115,9 @@ ARG PROGRAM_NAME
 
 # Copy files from prior step.
 
-COPY --from=fpm_builder "/output/*"                                  "/output/"
-COPY --from=fpm_builder "/output/darwin-amd64/${PROGRAM_NAME}"       "/output/darwin-amd64/${PROGRAM_NAME}"
-COPY --from=fpm_builder "/output/linux-amd64/${PROGRAM_NAME}"        "/output/linux-amd64/${PROGRAM_NAME}"
-COPY --from=fpm_builder "/output/windows-amd64/${PROGRAM_NAME}.exe"  "/output/windows-amd64/${PROGRAM_NAME}.exe"
+COPY --from=fpm_builder "/output/*"                              "/output/"
+COPY --from=fpm_builder "/output/darwin-amd64/${PROGRAM_NAME}"   "/output/darwin-amd64/${PROGRAM_NAME}"
+COPY --from=fpm_builder "/output/linux-amd64/${PROGRAM_NAME}"    "/output/linux-amd64/${PROGRAM_NAME}"
+COPY --from=fpm_builder "/output/windows-amd64/${PROGRAM_NAME}"  "/output/windows-amd64/${PROGRAM_NAME}.exe"
 
 CMD ["/bin/bash"]
