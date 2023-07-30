@@ -1,4 +1,4 @@
-name: make-github-release-assets.yaml
+name: make-github-release-assets-darwin.yaml
 
 on: [push]
 
@@ -20,7 +20,7 @@ jobs:
       - name: Make executable file
         run: make darwin/amd64
       - name: Make a .dmg file
-        run: create-dmg  --app-drop-link 0 40 "Senzing-Tools-Application-Installer.dmg"  target/darwin-amd64/"
+        run: create-dmg  --app-drop-link 0 40 "Senzing-Tools-Application-Installer.dmg"  "target/darwin-amd64/"
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
