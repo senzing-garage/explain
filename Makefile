@@ -19,6 +19,7 @@ BUILD_ITERATION := $(shell git log $(BUILD_TAG)..HEAD --oneline | wc -l | sed 's
 GIT_REMOTE_URL := $(shell git config --get remote.origin.url)
 GO_PACKAGE_NAME := $(shell echo $(GIT_REMOTE_URL) | sed -e 's|^git@github.com:|github.com/|' -e 's|\.git$$||' -e 's|Senzing|senzing|')
 
+
 # Optionally include platform-specific settings
 -include Makefile.$(OSTYPE)
 -include Makefile.$(OSTYPE)_$(OSARCH)
@@ -36,6 +37,13 @@ LD_LIBRARY_PATH ?= /opt/senzing/g2/lib
 # Export environment variables.
 
 .EXPORT_ALL_VARIABLES:
+
+
+# -----------------------------------------------------------------------------
+# Parse os/arch
+# -----------------------------------------------------------------------------
+
+
 
 # -----------------------------------------------------------------------------
 # The first "make" target runs as default.
@@ -55,38 +63,29 @@ dependencies:
 	@go mod tidy
 
 
-.PHONY: build
-build: build-darwin-amd64 build-linux-amd64 build-scratch build-windows-amd64
+PLATFORMS := darwin/amd64 linux/amd64 windows/amd64
+
+temp = $(subst /, ,$@)
+os = $(word 1, $(temp))
+arch = $(word 2, $(temp))
 
 
-.PHONY: build-darwin
-build-darwin-amd64:
-	@GOOS=darwin \
-	GOARCH=amd64 \
+$(PLATFORMS):
+	echo Building $(TARGET_DIRECTORY)/$(os)-$(arch)/$(GO_PACKAGE_NAME)
+	@mkdir -p $(TARGET_DIRECTORY)/$(os)-$(arch) || true
+	@GOOS=$(os) \
+	GOARCH=$(arch) \
 	go build \
 		-ldflags \
 			"-X 'main.buildIteration=${BUILD_ITERATION}' \
 			-X 'main.buildVersion=${BUILD_VERSION}' \
 			-X 'main.programName=${PROGRAM_NAME}' \
 			" \
-		-o $(GO_PACKAGE_NAME)
-	@mkdir -p $(TARGET_DIRECTORY)/darwin-amd64 || true
-	@mv $(GO_PACKAGE_NAME) $(TARGET_DIRECTORY)/darwin-amd64
+		-o $(TARGET_DIRECTORY)/$(os)-$(arch)/$(PROGRAM_NAME)
 
 
-.PHONY: build-linux-amd64
-build-linux-amd64:
-	@GOOS=linux \
-	GOARCH=amd64 \
-	go build \
-		-ldflags \
-			"-X 'main.buildIteration=${BUILD_ITERATION}' \
-			-X 'main.buildVersion=${BUILD_VERSION}' \
-			-X 'main.programName=${PROGRAM_NAME}' \
-			" \
-		-o $(GO_PACKAGE_NAME)
-	@mkdir -p $(TARGET_DIRECTORY)/linux-amd64 || true
-	@mv $(GO_PACKAGE_NAME) $(TARGET_DIRECTORY)/linux-amd64
+.PHONY: build $(PLATFORMS)
+build: $(PLATFORMS)
 
 
 .PHONY: build-scratch
@@ -107,22 +106,6 @@ build-scratch:
 		-o $(GO_PACKAGE_NAME)
 	@mkdir -p $(TARGET_DIRECTORY)/scratch || true
 	@mv $(GO_PACKAGE_NAME) $(TARGET_DIRECTORY)/scratch
-
-
-.PHONY: build-windows-amd64
-build-windows-amd64:
-	@GOOS=windows \
-	GOARCH=amd64 \
-	go build \
-		-ldflags \
-			"-X 'main.buildIteration=${BUILD_ITERATION}' \
-			-X 'main.buildVersion=${BUILD_VERSION}' \
-			-X 'main.programName=${PROGRAM_NAME}' \
-			" \
-		-o $(GO_PACKAGE_NAME).exe
-	@mkdir -p $(TARGET_DIRECTORY)/windows-amd64 || true
-	@mv $(GO_PACKAGE_NAME).exe $(TARGET_DIRECTORY)/windows-amd64
-
 
 # -----------------------------------------------------------------------------
 # Test
