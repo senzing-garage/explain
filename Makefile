@@ -9,7 +9,7 @@ include Makefile.osdetect
 PROGRAM_NAME := $(shell basename `git rev-parse --show-toplevel`)
 MAKEFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 MAKEFILE_DIRECTORY := $(dir $(MAKEFILE_PATH))
-TARGET_DIRECTORY := $(MAKEFILE_DIRECTORY)/target
+TARGET_DIRECTORY := $(MAKEFILE_DIRECTORY)target
 DOCKER_CONTAINER_NAME := $(PROGRAM_NAME)
 DOCKER_IMAGE_NAME := senzing/$(PROGRAM_NAME)
 DOCKER_BUILD_IMAGE_NAME := $(DOCKER_IMAGE_NAME)-build
@@ -18,9 +18,12 @@ BUILD_TAG := $(shell git describe --always --tags --abbrev=0  | sed 's/v//')
 BUILD_ITERATION := $(shell git log $(BUILD_TAG)..HEAD --oneline | wc -l | sed 's/^ *//')
 GIT_REMOTE_URL := $(shell git config --get remote.origin.url)
 GO_PACKAGE_NAME := $(shell echo $(GIT_REMOTE_URL) | sed -e 's|^git@github.com:|github.com/|' -e 's|\.git$$||' -e 's|Senzing|senzing|')
-
+GOOSARCH = $(subst /, ,$@)
+GOOS = $(word 1, $(GOOSARCH))
+GOARCH = $(word 2, $(GOOSARCH))
 
 # Optionally include platform-specific settings
+
 -include Makefile.$(OSTYPE)
 -include Makefile.$(OSTYPE)_$(OSARCH)
 
@@ -37,13 +40,6 @@ LD_LIBRARY_PATH ?= /opt/senzing/g2/lib
 # Export environment variables.
 
 .EXPORT_ALL_VARIABLES:
-
-
-# -----------------------------------------------------------------------------
-# Parse os/arch
-# -----------------------------------------------------------------------------
-
-
 
 # -----------------------------------------------------------------------------
 # The first "make" target runs as default.
@@ -64,24 +60,18 @@ dependencies:
 
 
 PLATFORMS := darwin/amd64 linux/amd64 windows/amd64
-
-temp = $(subst /, ,$@)
-os = $(word 1, $(temp))
-arch = $(word 2, $(temp))
-
-
 $(PLATFORMS):
-	echo Building $(TARGET_DIRECTORY)/$(os)-$(arch)/$(GO_PACKAGE_NAME)
-	@mkdir -p $(TARGET_DIRECTORY)/$(os)-$(arch) || true
-	@GOOS=$(os) \
-	GOARCH=$(arch) \
+	@echo Building $(TARGET_DIRECTORY)/$(GOOS)-$(GOARCH)/$(PROGRAM_NAME)
+	@mkdir -p $(TARGET_DIRECTORY)/$(GOOS)-$(GOARCH) || true
+	@GOOS=$(GOOS) \
+	GOARCH=$(GOARCH) \
 	go build \
 		-ldflags \
 			"-X 'main.buildIteration=${BUILD_ITERATION}' \
 			-X 'main.buildVersion=${BUILD_VERSION}' \
 			-X 'main.programName=${PROGRAM_NAME}' \
 			" \
-		-o $(TARGET_DIRECTORY)/$(os)-$(arch)/$(PROGRAM_NAME)
+		-o $(TARGET_DIRECTORY)/$(GOOS)-$(GOARCH)/$(PROGRAM_NAME)
 
 
 .PHONY: build $(PLATFORMS)
