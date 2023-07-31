@@ -18,6 +18,8 @@ jobs:
           fetch-depth: 0
       - name: install create-dmg
         run: brew install create-dmg
+      - name: install tree
+        run: brew install tree
       - name: Make executable file
         run: make darwin/amd64
       - name: Make a .dmg file
@@ -26,6 +28,8 @@ jobs:
           chmod +x /usr/local/bin/create-dmg2
           export BUILD_VERSION=$(git describe --always --tags --abbrev=0 --dirty  | sed 's/v//')
           create-dmg2 --app-drop-link 0 40 --version $BUILD_VERSION "explain-$BUILD_VERSION.dmg"  "target/darwin-amd64/"
+          pwd
+          tree
       - name: Upload versioned package to release assets
         uses: svenstaro/upload-release-action@v2
         with:
