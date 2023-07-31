@@ -25,23 +25,16 @@ jobs:
       - name: adjust create-dmg
         run: |
           sed -e "s|ln -s /Applications|ln -s /usr/local/bin|" /usr/local/bin/create-dmg > /usr/local/bin/create-dmg-new
-          diff /usr/local/bin/create-dmg /usr/local/bin/create-dmg-new
+          diff /usr/local/bin/create-dmg /usr/local/bin/create-dmg-new  || true
           cat /usr/local/bin/create-dmg-new
           ls /usr/local/bin
           mv /usr/local/bin/create-dmg /usr/local/bin/create-dmg-backup
           mv /usr/local/bin/create-dmg-new /usr/local/bin/create-dmg
           chmod +x /usr/local/bin/create-dmg
           ls /usr/local/bin
-
           echo "---------------------------------------------------------------------------------------------"
-
-          cat /usr/local/bin/create-dmg-
-          echo "---------------------------------------------------------------------------------------------"
-
           cat /usr/local/bin/create-dmg
-
           echo "---------------------------------------------------------------------------------------------"
-
           pwd
           tree
       - name: Make a .dmg file
