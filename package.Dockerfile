@@ -33,18 +33,10 @@ COPY . ${GOPATH}/src/${GO_PACKAGE_NAME}
 WORKDIR ${GOPATH}/src/${GO_PACKAGE_NAME}
 RUN make build
 
-# --- Test go program ---------------------------------------------------------
-
-# Run unit tests.
-
-# RUN go get github.com/jstemmer/go-junit-report \
-#  && mkdir -p /output/go-junit-report \
-#  && go test -v ${GO_PACKAGE_NAME}/... | go-junit-report > /output/go-junit-report/test-report.xml
-
 # Copy binaries to /output.
 
 RUN mkdir -p /output \
-      && cp -R ${GOPATH}/src/${GO_PACKAGE_NAME}/target/*  /output/
+ && cp -R ${GOPATH}/src/${GO_PACKAGE_NAME}/target/*  /output/
 
 # -----------------------------------------------------------------------------
 # Stage: fpm_builder
@@ -93,11 +85,6 @@ RUN fpm \
       --package /output/${PROGRAM_NAME}-${BUILD_VERSION}.deb \
       --version ${BUILD_VERSION} \
       /output/linux-amd64/=/usr/bin
-
-RUN ls /output/
-RUN ls /output/darwin-amd64
-RUN ls /output/linux-amd64
-RUN ls /output/windows-amd64
 
 # -----------------------------------------------------------------------------
 # Stage: final

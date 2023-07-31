@@ -1,6 +1,7 @@
 # Makefile for explain.
 
 # Detect the operating system and architecture
+
 include Makefile.osdetect
 
 # "Simple expanded" variables (':=')
@@ -145,6 +146,17 @@ package: docker-build-package
 	@CONTAINER_ID=$$(docker create $(DOCKER_BUILD_IMAGE_NAME)); \
 	docker cp $$CONTAINER_ID:/output/. $(TARGET_DIRECTORY)/; \
 	docker rm -v $$CONTAINER_ID
+
+.PHONY: package-darwin
+package-darwin: docker-build-package
+	@mkdir -p $(TARGET_DIRECTORY) || true
+	@CONTAINER_ID=$$(docker create $(DOCKER_BUILD_IMAGE_NAME)); \
+	docker cp $$CONTAINER_ID:/output/. $(TARGET_DIRECTORY)/; \
+	docker rm -v $$CONTAINER_ID
+    create-dmg  \
+		--app-drop-link 0 40 \
+		"Senzing-Tools-Application-Installer.dmg" \
+		"target/darwin-amd64/"
 
 # -----------------------------------------------------------------------------
 # Run
