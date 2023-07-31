@@ -12,21 +12,22 @@ jobs:
     name: Publish binaries - darwin
     runs-on: macos-latest
     steps:
-      - run: echo ${BUILD_VERSION}
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Set BUILD_VERSION
-        run: export BUILD_VERSION=$(git describe --always --tags --abbrev=0 --dirty  | sed 's/v//')
       - name: install create-dmg
         run: brew install create-dmg
       - name: Make executable file
         run: make darwin/amd64
       - name: Make a .dmg file
+        env:
+          BUILD_VERSION: $(git describe --always --tags --abbrev=0 --dirty  | sed 's/v//')
         run: create-dmg  --app-drop-link 0 40 "Senzing-Tools-Application-Installer-${BUILD_VERSION}.dmg"  "target/darwin-amd64/"
       - name: Upload versioned package to release assets
+        env:
+          BUILD_VERSION: $(git describe --always --tags --abbrev=0 --dirty  | sed 's/v//')
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: /Users/runner/work/explain/explain/Senzing-Tools-Application-Installer-${BUILD_VERSION}.dmg
+          file: "/Users/runner/work/explain/explain/Senzing-Tools-Application-Installer-${BUILD_VERSION}.dmg"
           tag: ${{ github.ref }}
           overwrite: true
