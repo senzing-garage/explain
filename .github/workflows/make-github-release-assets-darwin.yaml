@@ -16,27 +16,16 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: install create-dmg
-        run: brew install create-dmg tree
-      - name: install tree
-        run: brew install tree
+      - name: Install create-dmg
+        run: brew install create-dmg
       - name: Make executable file
         run: make darwin/amd64
-      - name: adjust create-dmg
+      - name: Adjust create-dmg
         run: |
           sed -e "s|ln -s /Applications|ln -s /usr/local/bin|" /usr/local/bin/create-dmg > /usr/local/bin/create-dmg-new
-          diff /usr/local/bin/create-dmg /usr/local/bin/create-dmg-new  || true
-          cat /usr/local/bin/create-dmg-new
-          ls /usr/local/bin
           mv /usr/local/bin/create-dmg /usr/local/bin/create-dmg-backup
           mv /usr/local/bin/create-dmg-new /usr/local/bin/create-dmg
           chmod +x /usr/local/bin/create-dmg
-          ls /usr/local/bin
-          echo "---------------------------------------------------------------------------------------------"
-          cat /usr/local/bin/create-dmg
-          echo "---------------------------------------------------------------------------------------------"
-          pwd
-          tree
       - name: Make a .dmg file
         run: |
           export BUILD_VERSION=$(git describe --always --tags --abbrev=0 --dirty  | sed 's/v//')
