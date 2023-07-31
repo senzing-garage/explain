@@ -7,8 +7,6 @@ on: [push]
 #     tags:
 #       - "[0-9]+.[0-9]+.[0-9]+"
 
-env:
-  BUILD_VERSION: ${{ git describe --always --tags --abbrev=0 --dirty  | sed 's/v//' }}
 jobs:
   build:
     name: Publish binaries - darwin
@@ -17,6 +15,8 @@ jobs:
       - run: echo ${BUILD_VERSION}
       - name: Checkout repository
         uses: actions/checkout@v3
+      - name: Set BUILD_VERSION
+        run: export BUILD_VERSION=$(git describe --always --tags --abbrev=0 --dirty  | sed 's/v//')
       - name: install create-dmg
         run: brew install create-dmg
       - name: Make executable file
