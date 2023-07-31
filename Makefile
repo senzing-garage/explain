@@ -153,7 +153,7 @@ package-darwin: docker-build-package
 	@CONTAINER_ID=$$(docker create $(DOCKER_BUILD_IMAGE_NAME)); \
 	docker cp $$CONTAINER_ID:/output/. $(TARGET_DIRECTORY)/; \
 	docker rm -v $$CONTAINER_ID
-    create-dmg  \
+	create-dmg \
 		--app-drop-link 0 40 \
 		"Senzing-Tools-Application-Installer.dmg" \
 		"target/darwin-amd64/"
