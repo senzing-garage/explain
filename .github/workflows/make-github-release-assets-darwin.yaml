@@ -17,14 +17,14 @@ jobs:
         with:
           fetch-depth: 0
       - name: install create-dmg
-        run: brew install create-dmg
+        run: brew install create-dmg tree
       - name: install tree
         run: brew install tree
       - name: Make executable file
         run: make darwin/amd64
       - name: Make a .dmg file
         run: |
-          sed -e "s|MOUNT_DIR/Applications|MOUNT_DIR/usr-local-bin|" -e "s|/Applications|/usr/local/bin|" /usr/local/bin/create-dmg > /usr/local/bin/create-dmg-new
+          sed -e "s|ls -s /Applications|ln -s /usr/local/bin|" /usr/local/bin/create-dmg > /usr/local/bin/create-dmg-new
           mv /usr/local/bin/create-dmg /usr/local/bin/create-dmg-backup
           mv /usr/local/bin/create-dmg-new /usr/local/bin/create-dmg
           chmod +x /usr/local/bin/create-dmg
