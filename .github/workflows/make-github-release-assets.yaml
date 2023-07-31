@@ -7,31 +7,20 @@ on:
 
 jobs:
   build:
-    name: Publish binaries
+    name: Publish binaries - linux
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - run: make package
+        with:
+          fetch-depth: 0
+      - name: Make RPM/DEB files
+        run: make package
       - name: Upload versioned packages to release assets
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: target/explain-*
           file_glob: true
-          tag: ${{ github.ref }}
-          overwrite: true
-      - name: Upload Darwin file to release assets
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: target/darwin-amd64/explain
-          tag: ${{ github.ref }}
-          overwrite: true
-      - name: Upload Windows file to release assets
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: target/windows-amd64/explain.exe
           tag: ${{ github.ref }}
           overwrite: true

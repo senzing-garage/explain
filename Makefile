@@ -1,6 +1,7 @@
 # Makefile for explain.
 
 # Detect the operating system and architecture
+
 include Makefile.osdetect
 
 # "Simple expanded" variables (':=')
@@ -9,7 +10,7 @@ include Makefile.osdetect
 PROGRAM_NAME := $(shell basename `git rev-parse --show-toplevel`)
 MAKEFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 MAKEFILE_DIRECTORY := $(dir $(MAKEFILE_PATH))
-TARGET_DIRECTORY := $(MAKEFILE_DIRECTORY)/target
+TARGET_DIRECTORY := $(MAKEFILE_DIRECTORY)target
 DOCKER_CONTAINER_NAME := $(PROGRAM_NAME)
 DOCKER_IMAGE_NAME := senzing/$(PROGRAM_NAME)
 DOCKER_BUILD_IMAGE_NAME := $(DOCKER_IMAGE_NAME)-build
@@ -18,8 +19,12 @@ BUILD_TAG := $(shell git describe --always --tags --abbrev=0  | sed 's/v//')
 BUILD_ITERATION := $(shell git log $(BUILD_TAG)..HEAD --oneline | wc -l | sed 's/^ *//')
 GIT_REMOTE_URL := $(shell git config --get remote.origin.url)
 GO_PACKAGE_NAME := $(shell echo $(GIT_REMOTE_URL) | sed -e 's|^git@github.com:|github.com/|' -e 's|\.git$$||' -e 's|Senzing|senzing|')
+GOOSARCH = $(subst /, ,$@)
+GOOS = $(word 1, $(GOOSARCH))
+GOARCH = $(word 2, $(GOOSARCH))
 
 # Optionally include platform-specific settings
+
 -include Makefile.$(OSTYPE)
 -include Makefile.$(OSTYPE)_$(OSARCH)
 
@@ -55,38 +60,23 @@ dependencies:
 	@go mod tidy
 
 
-.PHONY: build
-build: build-darwin-amd64 build-linux-amd64 build-scratch build-windows-amd64
-
-
-.PHONY: build-darwin
-build-darwin-amd64:
-	@GOOS=darwin \
-	GOARCH=amd64 \
+PLATFORMS := darwin/amd64 linux/amd64 windows/amd64
+$(PLATFORMS):
+	@echo Building $(TARGET_DIRECTORY)/$(GOOS)-$(GOARCH)/$(PROGRAM_NAME)
+	@mkdir -p $(TARGET_DIRECTORY)/$(GOOS)-$(GOARCH) || true
+	@GOOS=$(GOOS) \
+	GOARCH=$(GOARCH) \
 	go build \
 		-ldflags \
 			"-X 'main.buildIteration=${BUILD_ITERATION}' \
 			-X 'main.buildVersion=${BUILD_VERSION}' \
 			-X 'main.programName=${PROGRAM_NAME}' \
 			" \
-		-o $(GO_PACKAGE_NAME)
-	@mkdir -p $(TARGET_DIRECTORY)/darwin-amd64 || true
-	@mv $(GO_PACKAGE_NAME) $(TARGET_DIRECTORY)/darwin-amd64
+		-o $(TARGET_DIRECTORY)/$(GOOS)-$(GOARCH)/$(PROGRAM_NAME)
 
 
-.PHONY: build-linux-amd64
-build-linux-amd64:
-	@GOOS=linux \
-	GOARCH=amd64 \
-	go build \
-		-ldflags \
-			"-X 'main.buildIteration=${BUILD_ITERATION}' \
-			-X 'main.buildVersion=${BUILD_VERSION}' \
-			-X 'main.programName=${PROGRAM_NAME}' \
-			" \
-		-o $(GO_PACKAGE_NAME)
-	@mkdir -p $(TARGET_DIRECTORY)/linux-amd64 || true
-	@mv $(GO_PACKAGE_NAME) $(TARGET_DIRECTORY)/linux-amd64
+.PHONY: build $(PLATFORMS)
+build: $(PLATFORMS)
 
 
 .PHONY: build-scratch
@@ -107,22 +97,6 @@ build-scratch:
 		-o $(GO_PACKAGE_NAME)
 	@mkdir -p $(TARGET_DIRECTORY)/scratch || true
 	@mv $(GO_PACKAGE_NAME) $(TARGET_DIRECTORY)/scratch
-
-
-.PHONY: build-windows-amd64
-build-windows-amd64:
-	@GOOS=windows \
-	GOARCH=amd64 \
-	go build \
-		-ldflags \
-			"-X 'main.buildIteration=${BUILD_ITERATION}' \
-			-X 'main.buildVersion=${BUILD_VERSION}' \
-			-X 'main.programName=${PROGRAM_NAME}' \
-			" \
-		-o $(GO_PACKAGE_NAME).exe
-	@mkdir -p $(TARGET_DIRECTORY)/windows-amd64 || true
-	@mv $(GO_PACKAGE_NAME).exe $(TARGET_DIRECTORY)/windows-amd64
-
 
 # -----------------------------------------------------------------------------
 # Test
@@ -172,6 +146,17 @@ package: docker-build-package
 	@CONTAINER_ID=$$(docker create $(DOCKER_BUILD_IMAGE_NAME)); \
 	docker cp $$CONTAINER_ID:/output/. $(TARGET_DIRECTORY)/; \
 	docker rm -v $$CONTAINER_ID
+
+.PHONY: package-darwin
+package-darwin: docker-build-package
+	@mkdir -p $(TARGET_DIRECTORY) || true
+	@CONTAINER_ID=$$(docker create $(DOCKER_BUILD_IMAGE_NAME)); \
+	docker cp $$CONTAINER_ID:/output/. $(TARGET_DIRECTORY)/; \
+	docker rm -v $$CONTAINER_ID
+	create-dmg \
+		--app-drop-link 0 40 \
+		"Senzing-Tools-Application-Installer.dmg" \
+		"target/darwin-amd64/"
 
 # -----------------------------------------------------------------------------
 # Run

@@ -33,18 +33,10 @@ COPY . ${GOPATH}/src/${GO_PACKAGE_NAME}
 WORKDIR ${GOPATH}/src/${GO_PACKAGE_NAME}
 RUN make build
 
-# --- Test go program ---------------------------------------------------------
-
-# Run unit tests.
-
-# RUN go get github.com/jstemmer/go-junit-report \
-#  && mkdir -p /output/go-junit-report \
-#  && go test -v ${GO_PACKAGE_NAME}/... | go-junit-report > /output/go-junit-report/test-report.xml
-
 # Copy binaries to /output.
 
 RUN mkdir -p /output \
-      && cp -R ${GOPATH}/src/${GO_PACKAGE_NAME}/target/*  /output/
+ && cp -R ${GOPATH}/src/${GO_PACKAGE_NAME}/target/*  /output/
 
 # -----------------------------------------------------------------------------
 # Stage: fpm_builder
@@ -94,18 +86,6 @@ RUN fpm \
       --version ${BUILD_VERSION} \
       /output/linux-amd64/=/usr/bin
 
-# Create Darwin osxpkg package.
-
-# RUN fpm \
-#       --input-type dir \
-#       --iteration ${BUILD_ITERATION} \
-#       --name ${PROGRAM_NAME} \
-#       --osxpkg-identifier-prefix com.senzing \
-#       --output-type osxpkg \
-#       --package /output/${PROGRAM_NAME}-${BUILD_VERSION}.pkg \
-#       --version ${BUILD_VERSION} \
-#       /output/darwin/=/usr/bin
-
 # -----------------------------------------------------------------------------
 # Stage: final
 # -----------------------------------------------------------------------------
@@ -122,9 +102,9 @@ ARG PROGRAM_NAME
 
 # Copy files from prior step.
 
-COPY --from=fpm_builder "/output/*"                                  "/output/"
-COPY --from=fpm_builder "/output/darwin-amd64/${PROGRAM_NAME}"       "/output/darwin-amd64/${PROGRAM_NAME}"
-COPY --from=fpm_builder "/output/linux-amd64/${PROGRAM_NAME}"        "/output/linux-amd64/${PROGRAM_NAME}"
-COPY --from=fpm_builder "/output/windows-amd64/${PROGRAM_NAME}.exe"  "/output/windows-amd64/${PROGRAM_NAME}.exe"
+COPY --from=fpm_builder "/output/*"                              "/output/"
+COPY --from=fpm_builder "/output/darwin-amd64/${PROGRAM_NAME}"   "/output/darwin-amd64/${PROGRAM_NAME}"
+COPY --from=fpm_builder "/output/linux-amd64/${PROGRAM_NAME}"    "/output/linux-amd64/${PROGRAM_NAME}"
+COPY --from=fpm_builder "/output/windows-amd64/${PROGRAM_NAME}"  "/output/windows-amd64/${PROGRAM_NAME}.exe"
 
 CMD ["/bin/bash"]
