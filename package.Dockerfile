@@ -2,7 +2,7 @@
 # Stages
 # -----------------------------------------------------------------------------
 
-ARG IMAGE_GO_BUILDER=golang:1.20.6
+ARG IMAGE_GO_BUILDER=golang:1.20.4
 ARG IMAGE_FPM_BUILDER=dockter/fpm:latest
 ARG IMAGE_FINAL=alpine
 
@@ -11,7 +11,7 @@ ARG IMAGE_FINAL=alpine
 # -----------------------------------------------------------------------------
 
 FROM ${IMAGE_GO_BUILDER} as go_builder
-ENV REFRESHED_AT=2023-07-26
+ENV REFRESHED_AT=2023-08-01
 LABEL Name="senzing/explain-builder" \
       Maintainer="support@senzing.com" \
       Version="0.1.1"
@@ -45,7 +45,7 @@ RUN mkdir -p /output \
 # -----------------------------------------------------------------------------
 
 FROM ${IMAGE_FPM_BUILDER} as fpm_builder
-ENV REFRESHED_AT=2023-07-26
+ENV REFRESHED_AT=2023-08-01
 LABEL Name="senzing/explain-fpm-builder" \
       Maintainer="support@senzing.com" \
       Version="0.1.1"
@@ -91,10 +91,10 @@ RUN fpm \
 # -----------------------------------------------------------------------------
 
 FROM ${IMAGE_FINAL} as final
-ENV REFRESHED_AT=2023-02-06
+ENV REFRESHED_AT=2023-08-01
 LABEL Name="senzing/explain" \
       Maintainer="support@senzing.com" \
-      Version="0.0.5"
+      Version="0.1.1"
 
 # Use arguments from prior stage.
 
@@ -102,9 +102,9 @@ ARG PROGRAM_NAME
 
 # Copy files from prior step.
 
-COPY --from=fpm_builder "/output/*"                              "/output/"
-COPY --from=fpm_builder "/output/darwin-amd64/${PROGRAM_NAME}"   "/output/darwin-amd64/${PROGRAM_NAME}"
-COPY --from=fpm_builder "/output/linux-amd64/${PROGRAM_NAME}"    "/output/linux-amd64/${PROGRAM_NAME}"
-COPY --from=fpm_builder "/output/windows-amd64/${PROGRAM_NAME}"  "/output/windows-amd64/${PROGRAM_NAME}.exe"
+COPY --from=fpm_builder "/output/*"                                  "/output/"
+COPY --from=fpm_builder "/output/darwin-amd64/${PROGRAM_NAME}"       "/output/darwin-amd64/${PROGRAM_NAME}"
+COPY --from=fpm_builder "/output/linux-amd64/${PROGRAM_NAME}"        "/output/linux-amd64/${PROGRAM_NAME}"
+COPY --from=fpm_builder "/output/windows-amd64/${PROGRAM_NAME}.exe"  "/output/windows-amd64/${PROGRAM_NAME}.exe"
 
 CMD ["/bin/bash"]
