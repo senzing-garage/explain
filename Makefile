@@ -19,9 +19,9 @@ BUILD_TAG := $(shell git describe --always --tags --abbrev=0  | sed 's/v//')
 BUILD_ITERATION := $(shell git log $(BUILD_TAG)..HEAD --oneline | wc -l | sed 's/^ *//')
 GIT_REMOTE_URL := $(shell git config --get remote.origin.url)
 GO_PACKAGE_NAME := $(shell echo $(GIT_REMOTE_URL) | sed -e 's|^git@github.com:|github.com/|' -e 's|\.git$$||' -e 's|Senzing|senzing|')
-GOOSARCH = $(subst /, ,$@)
-GOOS = $(word 1, $(GOOSARCH))
-GOARCH = $(word 2, $(GOOSARCH))
+GO_OSARCH = $(subst /, ,$@)
+GO_OS = $(word 1, $(GO_OSARCH))
+GO_ARCH = $(word 2, $(GO_OSARCH))
 
 # Optionally include platform-specific settings
 
@@ -62,21 +62,22 @@ dependencies:
 
 PLATFORMS := darwin/amd64 linux/amd64 windows/amd64
 $(PLATFORMS):
-	@echo Building $(TARGET_DIRECTORY)/$(GOOS)-$(GOARCH)/$(PROGRAM_NAME)
-	@mkdir -p $(TARGET_DIRECTORY)/$(GOOS)-$(GOARCH) || true
-	@GOOS=$(GOOS) \
-	GOARCH=$(GOARCH) \
+	@echo Building $(TARGET_DIRECTORY)/$(GO_OS)-$(GO_ARCH)/$(PROGRAM_NAME)
+	@mkdir -p $(TARGET_DIRECTORY)/$(GO_OS)-$(GO_ARCH) || true
+	@GOOS=$(GO_OS) \
+	GOARCH=$(GO_ARCH) \
 	go build \
 		-ldflags \
 			"-X 'main.buildIteration=${BUILD_ITERATION}' \
 			-X 'main.buildVersion=${BUILD_VERSION}' \
 			-X 'main.programName=${PROGRAM_NAME}' \
 			" \
-		-o $(TARGET_DIRECTORY)/$(GOOS)-$(GOARCH)/$(PROGRAM_NAME)
+		-o $(TARGET_DIRECTORY)/$(GO_OS)-$(GO_ARCH)/$(PROGRAM_NAME)
 
 
 .PHONY: build $(PLATFORMS)
 build: $(PLATFORMS)
+	@mv $(TARGET_DIRECTORY)/windows-amd64/$(PROGRAM_NAME) $(TARGET_DIRECTORY)/windows-amd64/$(PROGRAM_NAME).exe
 
 
 .PHONY: build-scratch
@@ -90,9 +91,9 @@ build-scratch:
 		-ldflags \
 			"-s \
 			-w \
-			-X 'github.com/roncewind/move/cmd.buildIteration=${BUILD_ITERATION}' \
-			-X 'github.com/roncewind/move/cmd.buildVersion=${BUILD_VERSION}' \
-			-X 'github.com/roncewind/move/cmd.programName=${PROGRAM_NAME}' \
+			-X 'github.com/senzing/senzing-tools/cmd.buildIteration=${BUILD_ITERATION}' \
+			-X 'github.com/senzing/senzing-tools/cmd.buildVersion=${BUILD_VERSION}' \
+			-X 'github.com/senzing/senzing-tools/cmd.programName=${PROGRAM_NAME}' \
 			" \
 		-o $(GO_PACKAGE_NAME)
 	@mkdir -p $(TARGET_DIRECTORY)/scratch || true
@@ -146,17 +147,6 @@ package: docker-build-package
 	@CONTAINER_ID=$$(docker create $(DOCKER_BUILD_IMAGE_NAME)); \
 	docker cp $$CONTAINER_ID:/output/. $(TARGET_DIRECTORY)/; \
 	docker rm -v $$CONTAINER_ID
-
-.PHONY: package-darwin
-package-darwin: docker-build-package
-	@mkdir -p $(TARGET_DIRECTORY) || true
-	@CONTAINER_ID=$$(docker create $(DOCKER_BUILD_IMAGE_NAME)); \
-	docker cp $$CONTAINER_ID:/output/. $(TARGET_DIRECTORY)/; \
-	docker rm -v $$CONTAINER_ID
-	create-dmg \
-		--app-drop-link 0 40 \
-		"Senzing-Tools-Application-Installer.dmg" \
-		"target/darwin-amd64/"
 
 # -----------------------------------------------------------------------------
 # Run
