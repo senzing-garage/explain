@@ -1,10 +1,11 @@
 module github.com/senzing/explain
 
 go 1.20
+toolchain go1.21.0
 
 require (
 	github.com/pkg/browser v0.0.0-20210911075715-681adbf594b8
-	github.com/senzing/go-cmdhelping v0.1.6
+	github.com/senzing/go-cmdhelping v0.1.7
 	github.com/spf13/cobra v1.7.0
 	github.com/spf13/viper v1.16.0
 	github.com/stretchr/testify v1.8.4
