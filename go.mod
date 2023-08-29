@@ -2,8 +2,6 @@ module github.com/senzing/explain
 
 go 1.21
 
-toolchain go1.21.0
-
 require (
 	github.com/pkg/browser v0.0.0-20210911075715-681adbf594b8
 	github.com/senzing/go-cmdhelping v0.1.8
