@@ -8,6 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.5] - 2023-10-20
+
+### Changed in 0.1.5
+
+- Refactor to [template-go](https://github.com/Senzing/template-go)
+- Update dependencies
+  - github.com/senzing/go-cmdhelping v0.1.9
+  - github.com/spf13/viper v1.17.0
+
 ## [0.1.4] - 2023-08-07
 
 ### Changed in 0.1.4
