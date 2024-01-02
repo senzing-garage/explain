@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/senzing/explain/explainer"
+	"github.com/senzing-garage/explain/explainer"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -27,7 +27,7 @@ func TestExplainerError(test *testing.T) {
 // ----------------------------------------------------------------------------
 
 func ExampleExplainerError() {
-	// For more information, visit https://github.com/Senzing/explain/blob/main/explainer/explainer_error_test.go
+	// For more information, visit https://github.com/senzing-garage/explain/blob/main/explainer/explainer_error_test.go
 	ctx := context.TODO()
 	explainer := &explainer.ExplainerError{
 		ErrorId: "senzing-60010000",

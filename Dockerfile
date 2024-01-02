@@ -2,8 +2,8 @@
 # Stages
 # -----------------------------------------------------------------------------
 
-ARG IMAGE_GO_BUILDER=golang:1.21.0-bullseye
-ARG IMAGE_FINAL=senzing/senzingapi-runtime:3.7.1
+ARG IMAGE_GO_BUILDER=golang:1.21.4-bullseye
+ARG IMAGE_FINAL=senzing/senzingapi-runtime:3.8.0
 
 # -----------------------------------------------------------------------------
 # Stage: go_builder

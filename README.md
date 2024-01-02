@@ -1,5 +1,17 @@
 # explain
 
+If you are beginning your journey with
+[Senzing](https://senzing.com/),
+please start with
+[Senzing Quick Start guides](https://docs.senzing.com/quickstart/).
+
+You are in the
+[Senzing Garage](https://github.com/senzing-garage)
+where projects are "tinkered" on.
+Although this GitHub repository may help you understand an approach to using Senzing,
+it's not considered to be "production ready" and is not considered to be part of the Senzing product.
+Heck, it may not even be appropriate for your application of Senzing!
+
 ## :warning: WARNING: explain is still in development :warning: _
 
 At the moment, this is "work-in-progress" with Semantic Versions of `0.n.x`.
@@ -9,14 +21,18 @@ the recommendation is not to use it yet.
 ## Synopsis
 
 `explain` is a command in the
-[senzing-tools](https://github.com/Senzing/senzing-tools)
+[senzing-tools](https://github.com/senzing-garage/senzing-tools)
 suite of tools.
 It is used to explain aspects of `senzing-tools`.
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/senzing/explain.svg)](https://pkg.go.dev/github.com/senzing/explain)
-[![Go Report Card](https://goreportcard.com/badge/github.com/senzing/explain)](https://goreportcard.com/report/github.com/senzing/explain)
-[![go-test.yaml](https://github.com/Senzing/explain/actions/workflows/go-test.yaml/badge.svg)](https://github.com/Senzing/explain/actions/workflows/go-test.yaml)
-[![License](https://img.shields.io/badge/License-Apache2-brightgreen.svg)](https://github.com/Senzing/explain/blob/main/LICENSE)
+[![Go Reference](https://pkg.go.dev/badge/github.com/senzing-garage/explain.svg)](https://pkg.go.dev/github.com/senzing-garage/explain)
+[![Go Report Card](https://goreportcard.com/badge/github.com/senzing-garage/explain)](https://goreportcard.com/report/github.com/senzing-garage/explain)
+[![License](https://img.shields.io/badge/License-Apache2-brightgreen.svg)](https://github.com/senzing-garage/explain/blob/main/LICENSE)
+
+[![gosec.yaml](https://github.com/senzing-garage/explain/actions/workflows/gosec.yaml/badge.svg)](https://github.com/senzing-garage/explain/actions/workflows/gosec.yaml)
+[![go-test-linux.yaml](https://github.com/senzing-garage/explain/actions/workflows/go-test-linux.yaml/badge.svg)](https://github.com/senzing-garage/explain/actions/workflows/go-test-linux.yaml)
+[![go-test-darwin.yaml](https://github.com/senzing-garage/explain/actions/workflows/go-test-darwin.yaml/badge.svg)](https://github.com/senzing-garage/explain/actions/workflows/go-test-darwin.yaml)
+[![go-test-windows.yaml](https://github.com/senzing-garage/explain/actions/workflows/go-test-windows.yaml/badge.svg)](https://github.com/senzing-garage/explain/actions/workflows/go-test-windows.yaml)
 
 ## Overview
 
@@ -32,9 +48,9 @@ It is used to explain aspects of `senzing-tools`.
 ## Install
 
 1. The `explain` command is installed with the
-   [senzing-tools](https://github.com/Senzing/senzing-tools)
+   [senzing-tools](https://github.com/senzing-garage/senzing-tools)
    suite of tools.
-   See senzing-tools [install](https://github.com/Senzing/senzing-tools#install).
+   See senzing-tools [install](https://github.com/senzing-garage/senzing-tools#install).
 
 ## Use
 
@@ -98,10 +114,10 @@ This usage shows how to initialze a database with a Docker container.
 
 ### Parameters
 
-- **[LD_LIBRARY_PATH](https://github.com/Senzing/knowledge-base/blob/main/lists/environment-variables.md#ld_library_path)**
-- **[SENZING_TOOLS_COMMAND](https://github.com/Senzing/knowledge-base/blob/main/lists/environment-variables.md#senzing_tools_command)**
-- **[SENZING_TOOLS_ERROR_ID](https://github.com/Senzing/knowledge-base/blob/main/lists/environment-variables.md#senzing_tools_error_id)**
-- **[SENZING_TOOLS_TTY_ONLY](https://github.com/Senzing/knowledge-base/blob/main/lists/environment-variables.md#senzing_tools_tty_only)**
+- **[LD_LIBRARY_PATH](https://github.com/senzing-garage/knowledge-base/blob/main/lists/environment-variables.md#ld_library_path)**
+- **[SENZING_TOOLS_COMMAND](https://github.com/senzing-garage/knowledge-base/blob/main/lists/environment-variables.md#senzing_tools_command)**
+- **[SENZING_TOOLS_ERROR_ID](https://github.com/senzing-garage/knowledge-base/blob/main/lists/environment-variables.md#senzing_tools_error_id)**
+- **[SENZING_TOOLS_TTY_ONLY](https://github.com/senzing-garage/knowledge-base/blob/main/lists/environment-variables.md#senzing_tools_tty_only)**
 
 ## References
 
