@@ -8,13 +8,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2024-01-02
+
+### Changed in 0.2.0
+
+- Renamed module to `github.com/senzing-garage/explain`
+- Refactor to [template-go](https://github.com/senzing-garage/template-go)
+- Update dependencies
+  - github.com/spf13/cobra v1.8.0
+  - github.com/spf13/viper v1.18.2
+
 ## [0.1.5] - 2023-10-20
 
 ### Changed in 0.1.5
 
-- Refactor to [template-go](https://github.com/Senzing/template-go)
+- Refactor to [template-go](https://github.com/senzing-garage/template-go)
 - Update dependencies
-  - github.com/senzing/go-cmdhelping v0.1.9
+  - github.com/pkg/browser v0.0.0-20240102092130-5ac0b6a4141c
+  - github.com/senzing-garage/go-cmdhelping v0.2.0
   - github.com/spf13/viper v1.17.0
 
 ## [0.1.4] - 2023-08-07
@@ -23,7 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Refactor to `template-go`
 - Update dependencies
-  - github.com/senzing/go-cmdhelping v0.1.5
+  - github.com/senzing-garage/go-cmdhelping v0.1.5
 
 ## [0.1.3] - 2023-07-26
 
@@ -41,7 +52,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed in 0.1.1
 
 - Updated dependencies
-  - github.com/senzing/go-cmdhelping v0.1.0
+  - github.com/senzing-garage/go-cmdhelping v0.1.0
 
 ## [0.1.0] - 2023-07-18
 

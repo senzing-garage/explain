@@ -6,9 +6,9 @@ import (
 	"context"
 	"os"
 
-	"github.com/senzing/explain/explainer"
-	"github.com/senzing/go-cmdhelping/cmdhelper"
-	"github.com/senzing/go-cmdhelping/option"
+	"github.com/senzing-garage/explain/explainer"
+	"github.com/senzing-garage/go-cmdhelping/cmdhelper"
+	"github.com/senzing-garage/go-cmdhelping/option"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
