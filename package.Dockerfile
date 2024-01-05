@@ -14,7 +14,7 @@ FROM ${IMAGE_GO_BUILDER} as go_builder
 ENV REFRESHED_AT=2023-08-01
 LABEL Name="senzing/explain-builder" \
       Maintainer="support@senzing.com" \
-      Version="0.1.1"
+      Version="0.2.0"
 
 # Build arguments.
 
@@ -48,7 +48,7 @@ FROM ${IMAGE_FPM_BUILDER} as fpm_builder
 ENV REFRESHED_AT=2023-08-01
 LABEL Name="senzing/explain-fpm-builder" \
       Maintainer="support@senzing.com" \
-      Version="0.1.1"
+      Version="0.2.0"
 
 # Use arguments from prior stage.
 
@@ -92,7 +92,7 @@ FROM ${IMAGE_FINAL} as final
 ENV REFRESHED_AT=2023-08-01
 LABEL Name="senzing/explain" \
       Maintainer="support@senzing.com" \
-      Version="0.1.1"
+      Version="0.2.0"
 
 # Use arguments from prior stage.
 

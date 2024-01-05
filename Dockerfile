@@ -13,7 +13,7 @@ FROM ${IMAGE_GO_BUILDER} as go_builder
 ENV REFRESHED_AT=2023-10-02
 LABEL Name="senzing/explain-builder" \
       Maintainer="support@senzing.com" \
-      Version="0.0.5"
+      Version="0.2.0"
 
 # Copy local files from the Git repository.
 
@@ -42,7 +42,7 @@ FROM ${IMAGE_FINAL} as final
 ENV REFRESHED_AT=2023-08-01
 LABEL Name="senzing/explain" \
       Maintainer="support@senzing.com" \
-      Version="0.0.5"
+      Version="0.2.0"
 
 # Copy local files from the Git repository.
 
