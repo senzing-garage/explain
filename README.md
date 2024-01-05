@@ -95,23 +95,6 @@ senzing-tools explain [flags]
 
 1. See [Parameters](#parameters) for additional parameters.
 
-### Using Docker
-
-This usage shows how to initialze a database with a Docker container.
-
-1. :pencil2: Run `senzing/senzing-tools`.
-   Example:
-
-    ```console
-    docker run \
-        --env SENZING_TOOLS_COMMAND=explain \
-        --env SENZING_TOOLS_ERROR_ID=senzing-60010032 \
-        --rm \
-        senzing/senzing-tools
-    ```
-
-1. See [Parameters](#parameters) for additional parameters.
-
 ### Parameters
 
 - **[LD_LIBRARY_PATH](https://github.com/senzing-garage/knowledge-base/blob/main/lists/environment-variables.md#ld_library_path)**
