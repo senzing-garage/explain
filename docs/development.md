@@ -97,27 +97,6 @@ Since the Senzing library is a prerequisite, it must be installed first.
 the reference can be found by clicking on the following badge at the top of the README.md page:
 [![Go Reference](https://pkg.go.dev/badge/github.com/senzing-garage/explain.svg)](https://pkg.go.dev/github.com/senzing-garage/explain)
 
-## Docker
-
-1. Use make target to run a docker images that builds RPM and DEB files.
-   Example:
-
-    ```console
-    cd ${GIT_REPOSITORY_DIR}
-    make docker-build
-
-    ```
-
-1. Run docker container.
-   Example:
-
-    ```console
-    docker run \
-      --rm \
-      senzing/explain
-
-    ```
-
 ## Package
 
 ### Package RPM and DEB files

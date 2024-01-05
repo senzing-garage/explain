@@ -25,6 +25,11 @@ hello-world-osarch-specific:
 	@echo "Hello World, from windows."
 
 
+.PHONY: package-osarch-specific
+package-osarch-specific:
+	@echo No packaging for windows.
+
+
 .PHONY: run-osarch-specific
 run-osarch-specific:
 	@go run main.go

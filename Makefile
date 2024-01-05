@@ -70,7 +70,6 @@ dependencies:
 
 # -----------------------------------------------------------------------------
 # Build
-#  - docker-build: https://docs.docker.com/engine/reference/commandline/build/
 # -----------------------------------------------------------------------------
 
 PLATFORMS := darwin/amd64 darwin/arm64 linux/amd64 linux/arm64 windows/amd64 windows/arm64
@@ -81,14 +80,6 @@ $(PLATFORMS):
 
 .PHONY: build
 build: build-osarch-specific
-
-
-.PHONY: docker-build
-docker-build:
-	@docker build \
-		--tag $(DOCKER_IMAGE_NAME) \
-		--tag $(DOCKER_IMAGE_NAME):$(BUILD_VERSION) \
-		.
 
 # -----------------------------------------------------------------------------
 # Test
@@ -101,18 +92,28 @@ test: test-osarch-specific
 # Run
 # -----------------------------------------------------------------------------
 
-.PHONY: docker-run
-docker-run:
-	@docker run \
-		--interactive \
-		--rm \
-		--tty \
-		--name $(DOCKER_CONTAINER_NAME) \
-		$(DOCKER_IMAGE_NAME)
-
-
 .PHONY: run
 run: run-osarch-specific
+
+# -----------------------------------------------------------------------------
+# Package
+# -----------------------------------------------------------------------------
+
+.PHONY: docker-build-package
+docker-build-package:
+	@docker build \
+		--build-arg BUILD_ITERATION=$(BUILD_ITERATION) \
+		--build-arg BUILD_VERSION=$(BUILD_VERSION) \
+		--build-arg GO_PACKAGE_NAME=$(GO_PACKAGE_NAME) \
+		--build-arg PROGRAM_NAME=$(PROGRAM_NAME) \
+		--no-cache \
+		--file package.Dockerfile \
+		--tag $(DOCKER_BUILD_IMAGE_NAME) \
+		.
+
+
+.PHONY: package
+package: package-osarch-specific
 
 # -----------------------------------------------------------------------------
 # Utility targets
