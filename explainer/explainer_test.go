@@ -4,20 +4,7 @@ import (
 	"fmt"
 	"os"
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
-
-// ----------------------------------------------------------------------------
-// Internal functions
-// ----------------------------------------------------------------------------
-
-func testError(test *testing.T, err error) {
-	if err != nil {
-		test.Log("Error:", err.Error())
-		assert.FailNow(test, err.Error())
-	}
-}
 
 // ----------------------------------------------------------------------------
 // Test harness
