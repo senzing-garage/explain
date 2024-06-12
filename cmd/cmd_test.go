@@ -17,7 +17,7 @@ import (
  */
 func Test_Execute(test *testing.T) {
 	_ = test
-	os.Args = []string{"command-name", "--message-id", "SZSDK60010000"}
+	os.Args = []string{"command-name", "--message-id", "SZSDK60010000", "--tty-only"}
 	Execute()
 }
 
@@ -35,7 +35,7 @@ func Test_Execute_docs(test *testing.T) {
 
 func Test_PreRun(test *testing.T) {
 	_ = test
-	args := []string{"command-name", "--message-id", "SZSDK60010000"}
+	args := []string{"command-name", "--message-id", "SZSDK60010000", "--tty-only"}
 	PreRun(RootCmd, args)
 }
 
