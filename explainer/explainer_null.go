@@ -23,13 +23,13 @@ type NullExplainer struct {
 // ----------------------------------------------------------------------------
 
 /*
-The Explain method simply returns an error to drive the "Usage" output by the caller.
+The Explain method simply returns a nil to drive the "Usage" output by the caller.
 
 Input
   - ctx: A context to control lifecycle.
 */
 func (explainer *NullExplainer) Explain(ctx context.Context) error {
 	_ = ctx
-	// return fmt.Errorf("need to specify an option (e.g. '--message-id')")
-	return nil
+	var err error
+	return err
 }

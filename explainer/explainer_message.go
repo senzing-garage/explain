@@ -13,23 +13,23 @@ import (
 // Types
 // ----------------------------------------------------------------------------
 
-// ExplainError is a Explainer for errors.
-type ErrorExplainer struct {
-	ErrorID string
-	TtyOnly bool
+// MessageExplainer is a Explainer for messages.
+type MessageExplainer struct {
+	MessageID string
+	TtyOnly   bool
 }
 
 // ----------------------------------------------------------------------------
 // Public functions
 // ----------------------------------------------------------------------------
 
-func ParseErrorMessage(errorMessage string) (int, int, error) {
+func ParseMessage(message string) (int, int, error) {
 	var err error
 	componentID := 0
 	messageID := 0
-	intString := strings.TrimPrefix(errorMessage, "SZSDK")
+	intString := strings.TrimPrefix(message, "SZSDK")
 	if len(intString) != 8 {
-		return componentID, messageID, fmt.Errorf("could not parse error message: %s", errorMessage)
+		return componentID, messageID, fmt.Errorf("could not parse message: %s", message)
 	}
 	componentIDString := intString[0:4]
 	componentID, err = strconv.Atoi(componentIDString)
@@ -57,22 +57,22 @@ Output
   - Nothing is returned, except for an error.  However, something is printed.
     See the example output.
 */
-func (explainer *ErrorExplainer) Explain(ctx context.Context) error {
+func (explainer *MessageExplainer) Explain(ctx context.Context) error {
 	_ = ctx
 
-	componentID, errorNumber, err := ParseErrorMessage(explainer.ErrorID)
+	componentID, messageNumber, err := ParseMessage(explainer.MessageID)
 	if err != nil {
 		return err
 	}
 
 	webpage, ok := ComponentID2WebPage[componentID]
 	if !ok {
-		return fmt.Errorf("no information for --error-message %s", explainer.ErrorID)
+		return fmt.Errorf("no information for --message-id %s", explainer.MessageID)
 	}
 
-	explainURL := fmt.Sprintf("https://%s#SZSDK%d", webpage, errorNumber)
+	explainURL := fmt.Sprintf("https://%s#SZSDK%d", webpage, messageNumber)
 
-	fmt.Printf("For information on that error, visit %s\n", explainURL)
+	fmt.Printf("For information on that message, visit %s\n", explainURL)
 
 	// Reference: https://gist.github.com/hyg/9c4afcd91fe24316cbf0
 

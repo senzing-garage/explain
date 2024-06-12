@@ -59,3 +59,10 @@ func Test_docsAction(test *testing.T) {
 	err := docsAction(&buffer, "/tmp")
 	require.NoError(test, err)
 }
+
+func Test_docsAction_badDir(test *testing.T) {
+	var buffer bytes.Buffer
+	badDir := "/tmp/no/directory/exists"
+	err := docsAction(&buffer, badDir)
+	require.Error(test, err)
+}

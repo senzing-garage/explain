@@ -38,7 +38,7 @@ It is used to explain aspects of `senzing-tools`.
 
 `explain` performs the following:
 
-1. Explains an error.
+1. Explains a message.
    Example:
 
     ```console
@@ -88,7 +88,7 @@ senzing-tools explain [flags]
    Example:
 
     ```console
-    export SENZING_TOOLS_ERROR_ID=senzing-60010032
+    export SENZING_TOOLS_MESSAGE_ID=senzing-60010032
     export LD_LIBRARY_PATH=/opt/senzing/g2/lib/
     senzing-tools explain
     ```
@@ -99,7 +99,7 @@ senzing-tools explain [flags]
 
 - **[LD_LIBRARY_PATH](https://github.com/senzing-garage/knowledge-base/blob/main/lists/environment-variables.md#ld_library_path)**
 - **[SENZING_TOOLS_COMMAND](https://github.com/senzing-garage/knowledge-base/blob/main/lists/environment-variables.md#senzing_tools_command)**
-- **[SENZING_TOOLS_ERROR_ID](https://github.com/senzing-garage/knowledge-base/blob/main/lists/environment-variables.md#senzing_tools_error_id)**
+- **[SENZING_TOOLS_MESSAGE_ID](https://github.com/senzing-garage/knowledge-base/blob/main/lists/environment-variables.md#senzing_tools_message_id)**
 - **[SENZING_TOOLS_TTY_ONLY](https://github.com/senzing-garage/knowledge-base/blob/main/lists/environment-variables.md#senzing_tools_tty_only)**
 
 ## References
