@@ -2,15 +2,14 @@ package explainer
 
 import (
 	"context"
-	"errors"
 )
 
 // ----------------------------------------------------------------------------
 // Types
 // ----------------------------------------------------------------------------
 
-// ExplainError is an example type-struct.
-type ExplainerNull struct {
+// NullExplainer is a "null object" Explainer.
+type NullExplainer struct {
 }
 
 // ----------------------------------------------------------------------------
@@ -24,11 +23,13 @@ type ExplainerNull struct {
 // ----------------------------------------------------------------------------
 
 /*
-The Explain method simply returns an error to drive the "Usage" output by the caller.
+The Explain method simply returns a nil to drive the "Usage" output by the caller.
 
 Input
   - ctx: A context to control lifecycle.
 */
-func (explainer *ExplainerNull) Explain(ctx context.Context) error {
-	return errors.New("need to specify an option (e.g. '--error-id')")
+func (explainer *NullExplainer) Explain(ctx context.Context) error {
+	_ = ctx
+	var err error
+	return err
 }

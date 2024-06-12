@@ -25,7 +25,7 @@ type Explainer interface {
 // Variables
 // ----------------------------------------------------------------------------
 
-var ComponentId2WebPage = map[int]string{
+var ComponentID2WebPage = map[int]string{
 	6001: page("sz-sdk-go-core"),
 	6002: page("sz-sdk-go-core"),
 	6003: page("sz-sdk-go-core"),

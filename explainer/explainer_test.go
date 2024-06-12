@@ -1,35 +1,35 @@
-package explainer_test
+package explainer
 
 import (
-	"fmt"
-	"os"
 	"testing"
+
+	"github.com/stretchr/testify/require"
 )
 
 // ----------------------------------------------------------------------------
-// Test harness
+// Test public functions
 // ----------------------------------------------------------------------------
 
-func TestMain(m *testing.M) {
-	err := setup()
-	if err != nil {
-		fmt.Print(err)
-		os.Exit(1)
-	}
-	code := m.Run()
-	err = teardown()
-	if err != nil {
-		fmt.Print(err)
-	}
-	os.Exit(code)
+func TestParseMessage(test *testing.T) {
+	messageID := "SZSDK60010000"
+	_, _, err := ParseMessage(messageID)
+	require.NoError(test, err)
 }
 
-func setup() error {
-	var err error = nil
-	return err
+func TestParseMessage_badPrefix(test *testing.T) {
+	badMessagID := "123456789"
+	_, _, err := ParseMessage(badMessagID)
+	require.Error(test, err)
 }
 
-func teardown() error {
-	var err error = nil
-	return err
+func TestParseMessage_badComponentID(test *testing.T) {
+	badMessagID := "SZSDK6A010000"
+	_, _, err := ParseMessage(badMessagID)
+	require.Error(test, err)
+}
+
+func TestParseMessage_badInstanceID(test *testing.T) {
+	badMessagID := "SZSDK60010A00"
+	_, _, err := ParseMessage(badMessagID)
+	require.Error(test, err)
 }
