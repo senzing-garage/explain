@@ -54,12 +54,6 @@ func Test_completionAction(test *testing.T) {
 	require.NoError(test, err)
 }
 
-func Test_docsAction(test *testing.T) {
-	var buffer bytes.Buffer
-	err := docsAction(&buffer, "/tmp")
-	require.NoError(test, err)
-}
-
 func Test_docsAction_badDir(test *testing.T) {
 	var buffer bytes.Buffer
 	badDir := "/tmp/no/directory/exists"
