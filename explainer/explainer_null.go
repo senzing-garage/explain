@@ -2,7 +2,6 @@ package explainer
 
 import (
 	"context"
-	"errors"
 )
 
 // ----------------------------------------------------------------------------
@@ -31,5 +30,6 @@ Input
 */
 func (explainer *NullExplainer) Explain(ctx context.Context) error {
 	_ = ctx
-	return errors.New("need to specify an option (e.g. '--error-id')")
+	// return fmt.Errorf("need to specify an option (e.g. '--message-id')")
+	return nil
 }

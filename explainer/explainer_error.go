@@ -27,7 +27,7 @@ func ParseErrorMessage(errorMessage string) (int, int, error) {
 	var err error
 	componentID := 0
 	messageID := 0
-	intString := strings.TrimPrefix(errorMessage, "senzing-")
+	intString := strings.TrimPrefix(errorMessage, "SZSDK")
 	if len(intString) != 8 {
 		return componentID, messageID, fmt.Errorf("could not parse error message: %s", errorMessage)
 	}
@@ -70,7 +70,7 @@ func (explainer *ErrorExplainer) Explain(ctx context.Context) error {
 		return fmt.Errorf("no information for --error-message %s", explainer.ErrorID)
 	}
 
-	explainURL := fmt.Sprintf("https://%s#senzing-%d", webpage, errorNumber)
+	explainURL := fmt.Sprintf("https://%s#SZSDK%d", webpage, errorNumber)
 
 	fmt.Printf("For information on that error, visit %s\n", explainURL)
 

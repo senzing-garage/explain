@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os"
 	"testing"
 )
 
@@ -9,5 +10,6 @@ import (
  */
 func TestMain(test *testing.T) {
 	_ = test
-	// main()
+	os.Args = []string{"command-name", "--message-id", "SZSDK60010000"}
+	main()
 }

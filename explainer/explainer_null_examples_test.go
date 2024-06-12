@@ -1,9 +1,7 @@
-package explainer_test
+package explainer
 
 import (
 	"context"
-
-	"github.com/senzing-garage/explain/explainer"
 )
 
 // ----------------------------------------------------------------------------
@@ -13,13 +11,10 @@ import (
 func ExampleNullExplainer() {
 	// For more information, visit https://github.com/senzing-garage/explain/blob/main/explainer/explainer_error_test.go
 	ctx := context.TODO()
-	explainer := &explainer.ErrorExplainer{
-		ErrorID: "senzing-60010000",
-		TtyOnly: true,
-	}
+	explainer := &NullExplainer{}
 	err := explainer.Explain(ctx)
 	if err != nil {
 		panic(err)
 	}
-	// Output: For information on that error, visit https://hub.senzing.com/sz-sdk-go-core/errors#senzing-60010000
+	// Output:
 }

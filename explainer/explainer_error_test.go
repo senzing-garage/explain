@@ -1,21 +1,20 @@
-package explainer_test
+package explainer
 
 import (
 	"context"
 	"testing"
 
-	"github.com/senzing-garage/explain/explainer"
 	"github.com/stretchr/testify/assert"
 )
 
 // ----------------------------------------------------------------------------
-// Test interface functions
+// Test public functions
 // ----------------------------------------------------------------------------
 
-func TestExplainerError(test *testing.T) {
+func TestErrorExplainer(test *testing.T) {
 	ctx := context.TODO()
-	testObject := &explainer.ErrorExplainer{
-		ErrorID: "senzing-60010000",
+	testObject := &ErrorExplainer{
+		ErrorID: "SZSDK60010000",
 		TtyOnly: true,
 	}
 	err := testObject.Explain(ctx)

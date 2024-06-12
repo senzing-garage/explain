@@ -42,7 +42,7 @@ It is used to explain aspects of `senzing-tools`.
    Example:
 
     ```console
-    senzing-tools explain --error-id senzing-60010032
+    senzing-tools explain --message-id SZSDK60010032
     ```
 
 ## Install
