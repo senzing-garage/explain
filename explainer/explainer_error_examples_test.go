@@ -10,11 +10,11 @@ import (
 // Examples for godoc documentation
 // ----------------------------------------------------------------------------
 
-func ExampleExplainerError() {
+func ExampleErrorExplainer() {
 	// For more information, visit https://github.com/senzing-garage/explain/blob/main/explainer/explainer_error_test.go
 	ctx := context.TODO()
-	explainer := &explainer.ExplainerError{
-		ErrorId: "senzing-60010000",
+	explainer := &explainer.ErrorExplainer{
+		ErrorID: "senzing-60010000",
 		TtyOnly: true,
 	}
 	err := explainer.Explain(ctx)

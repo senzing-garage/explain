@@ -67,12 +67,12 @@ func RunE(_ *cobra.Command, _ []string) error {
 	// Choose and run explainer.
 
 	if len(viper.GetString(option.ErrorId.Arg)) > 0 {
-		anExplainer = &explainer.ExplainerError{
-			ErrorId: viper.GetString(option.ErrorId.Arg),
+		anExplainer = &explainer.ErrorExplainer{
+			ErrorID: viper.GetString(option.ErrorId.Arg),
 			TtyOnly: viper.GetBool(option.TtyOnly.Arg),
 		}
 	} else {
-		anExplainer = &explainer.ExplainerNull{}
+		anExplainer = &explainer.NullExplainer{}
 	}
 	return anExplainer.Explain(ctx)
 }

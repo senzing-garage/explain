@@ -9,8 +9,8 @@ import (
 // Types
 // ----------------------------------------------------------------------------
 
-// ExplainError is an example type-struct.
-type ExplainerNull struct {
+// NullExplainer is a "null object" Explainer.
+type NullExplainer struct {
 }
 
 // ----------------------------------------------------------------------------
@@ -29,6 +29,7 @@ The Explain method simply returns an error to drive the "Usage" output by the ca
 Input
   - ctx: A context to control lifecycle.
 */
-func (explainer *ExplainerNull) Explain(ctx context.Context) error {
+func (explainer *NullExplainer) Explain(ctx context.Context) error {
+	_ = ctx
 	return errors.New("need to specify an option (e.g. '--error-id')")
 }
