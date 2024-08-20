@@ -16,9 +16,7 @@ the recommendation is not to use it yet.
 
 ## Synopsis
 
-`explain` is a command in the
-[senzing-tools](https://github.com/senzing-garage/senzing-tools)
-suite of tools.
+`explain` is a command in the [senzing-tools] suite of tools.
 It is used to explain aspects of `senzing-tools`.
 
 [![Go Reference Badge]][Package reference]
@@ -43,10 +41,8 @@ It is used to explain aspects of `senzing-tools`.
 
 ## Install
 
-1. The `explain` command is installed with the
-   [senzing-tools](https://github.com/senzing-garage/senzing-tools)
-   suite of tools.
-   See senzing-tools [install](https://github.com/senzing-garage/senzing-tools#install).
+1. The `explain` command is installed with the [senzing-tools] suite of tools.
+   See [senzing-tools install].
 
 ## Use
 
@@ -56,7 +52,7 @@ senzing-tools explain [flags]
 ```
 
 1. For options and flags:
-    1. [Online documentation](https://hub.senzing.com/senzing-tools/senzing-tools_explain.html)
+    1. [Online documentation]
     1. Runtime documentation:
 
         ```console
@@ -64,7 +60,7 @@ senzing-tools explain [flags]
         senzing-tools explain --help
         ```
 
-1. In addition to the following simple usage examples, there are additional [Examples](docs/examples.md).
+1. In addition to the following simple usage examples, there are additional [Examples].
 
 ### Using command line options
 
@@ -76,7 +72,7 @@ senzing-tools explain [flags]
     senzing-tools explain
     ```
 
-1. See [Parameters](#parameters) for additional parameters.
+1. See [Parameters] for additional parameters.
 
 ### Using environment variables
 
@@ -89,14 +85,14 @@ senzing-tools explain [flags]
     senzing-tools explain
     ```
 
-1. See [Parameters](#parameters) for additional parameters.
+1. See [Parameters] for additional parameters.
 
 ### Parameters
 
-- **[LD_LIBRARY_PATH](https://github.com/senzing-garage/knowledge-base/blob/main/lists/environment-variables.md#ld_library_path)**
-- **[SENZING_TOOLS_COMMAND](https://github.com/senzing-garage/knowledge-base/blob/main/lists/environment-variables.md#senzing_tools_command)**
-- **[SENZING_TOOLS_MESSAGE_ID](https://github.com/senzing-garage/knowledge-base/blob/main/lists/environment-variables.md#senzing_tools_message_id)**
-- **[SENZING_TOOLS_TTY_ONLY](https://github.com/senzing-garage/knowledge-base/blob/main/lists/environment-variables.md#senzing_tools_tty_only)**
+- **[LD_LIBRARY_PATH]**
+- **[SENZING_TOOLS_COMMAND]**
+- **[SENZING_TOOLS_MESSAGE_ID]**
+- **[SENZING_TOOLS_TTY_ONLY]**
 
 ## References
 
@@ -105,28 +101,33 @@ senzing-tools explain [flags]
 1. [Errors]
 1. [Examples]
 1. [Package reference]
-1. Related artifacts:
-    1. [DockerHub]
 
-[API documentation]: https://pkg.go.dev/github.com/senzing-garage/template-go
+[API documentation]: https://pkg.go.dev/github.com/senzing-garage/explain
 [Development]: docs/development.md
-[DockerHub]: https://hub.docker.com/r/senzing/template-go
 [Errors]: docs/errors.md
 [Examples]: docs/examples.md
-[Go Reference Badge]: https://pkg.go.dev/badge/github.com/senzing-garage/template-go.svg
-[Go Report Card Badge]: https://goreportcard.com/badge/github.com/senzing-garage/template-go
-[Go Report Card]: https://goreportcard.com/report/github.com/senzing-garage/template-go
-[go-test-darwin.yaml Badge]: https://github.com/senzing-garage/template-go/actions/workflows/go-test-darwin.yaml/badge.svg
-[go-test-darwin.yaml]: https://github.com/senzing-garage/template-go/actions/workflows/go-test-darwin.yaml
-[go-test-linux.yaml Badge]: https://github.com/senzing-garage/template-go/actions/workflows/go-test-linux.yaml/badge.svg
-[go-test-linux.yaml]: https://github.com/senzing-garage/template-go/actions/workflows/go-test-linux.yaml
-[go-test-windows.yaml Badge]: https://github.com/senzing-garage/template-go/actions/workflows/go-test-windows.yaml/badge.svg
-[go-test-windows.yaml]: https://github.com/senzing-garage/template-go/actions/workflows/go-test-windows.yaml
-[golangci-lint.yaml Badge]: https://github.com/senzing-garage/template-go/actions/workflows/golangci-lint.yaml/badge.svg
-[golangci-lint.yaml]: https://github.com/senzing-garage/template-go/actions/workflows/golangci-lint.yaml
+[Go Reference Badge]: https://pkg.go.dev/badge/github.com/senzing-garage/explain.svg
+[Go Report Card Badge]: https://goreportcard.com/badge/github.com/senzing-garage/explain
+[Go Report Card]: https://goreportcard.com/report/github.com/senzing-garage/explain
+[go-test-darwin.yaml Badge]: https://github.com/senzing-garage/explain/actions/workflows/go-test-darwin.yaml/badge.svg
+[go-test-darwin.yaml]: https://github.com/senzing-garage/explain/actions/workflows/go-test-darwin.yaml
+[go-test-linux.yaml Badge]: https://github.com/senzing-garage/explain/actions/workflows/go-test-linux.yaml/badge.svg
+[go-test-linux.yaml]: https://github.com/senzing-garage/explain/actions/workflows/go-test-linux.yaml
+[go-test-windows.yaml Badge]: https://github.com/senzing-garage/explain/actions/workflows/go-test-windows.yaml/badge.svg
+[go-test-windows.yaml]: https://github.com/senzing-garage/explain/actions/workflows/go-test-windows.yaml
+[golangci-lint.yaml Badge]: https://github.com/senzing-garage/explain/actions/workflows/golangci-lint.yaml/badge.svg
+[golangci-lint.yaml]: https://github.com/senzing-garage/explain/actions/workflows/golangci-lint.yaml
+[LD_LIBRARY_PATH]: https://github.com/senzing-garage/knowledge-base/blob/main/lists/environment-variables.md#ld_library_path
 [License Badge]: https://img.shields.io/badge/License-Apache2-brightgreen.svg
-[License]: https://github.com/senzing-garage/template-go/blob/main/LICENSE
-[Package reference]: https://pkg.go.dev/github.com/senzing-garage/template-go
+[License]: https://github.com/senzing-garage/explain/blob/main/LICENSE
+[Online documentation]: https://hub.senzing.com/senzing-tools/senzing-tools_explain.html
+[Package reference]: https://pkg.go.dev/github.com/senzing-garage/explain
+[Parameters]: #parameters
 [Senzing Garage]: https://github.com/senzing-garage
 [Senzing Quick Start guides]: https://docs.senzing.com/quickstart/
+[SENZING_TOOLS_COMMAND]: https://github.com/senzing-garage/knowledge-base/blob/main/lists/environment-variables.md#senzing_tools_command
+[SENZING_TOOLS_MESSAGE_ID]: https://github.com/senzing-garage/knowledge-base/blob/main/lists/environment-variables.md#senzing_tools_message_id
+[SENZING_TOOLS_TTY_ONLY]: https://github.com/senzing-garage/knowledge-base/blob/main/lists/environment-variables.md#senzing_tools_tty_only
+[senzing-tools install]: https://github.com/senzing-garage/senzing-tools#install
+[senzing-tools]: https://github.com/senzing-garage/senzing-tools
 [Senzing]: https://senzing.com/
