@@ -13,7 +13,6 @@ These are "one-time tasks" which may already have been completed.
 1. The following software programs need to be installed:
     1. [git]
     1. [make]
-    1. [docker]
     1. [go]
 
 ## Install Senzing C library
@@ -168,7 +167,7 @@ Create a code coverage map.
 
 1. If a web page doesn't appear, visit [localhost:6060].
 1. Senzing documentation will be in the "Third party" section.
-   `github.com` > `senzing` > `go-cmdhelping`
+   `github.com` > `senzing` > `explain`
 
 1. When a versioned release is published with a `v0.0.0` format tag,
 the reference can be found by clicking on the following badge at the top of the README.md page.
@@ -243,7 +242,6 @@ Example:
 ## References
 
 [clone-repository]: https://github.com/senzing-garage/knowledge-base/blob/main/HOWTO/clone-repository.md
-[docker]: https://github.com/senzing-garage/knowledge-base/blob/main/WHATIS/docker.md
 [git]: https://github.com/senzing-garage/knowledge-base/blob/main/WHATIS/git.md
 [Go Reference Badge]: https://pkg.go.dev/badge/github.com/senzing-garage/explain.svg
 [Go Reference]: https://pkg.go.dev/github.com/senzing-garage/explain

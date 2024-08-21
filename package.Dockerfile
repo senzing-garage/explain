@@ -105,8 +105,8 @@ ARG PROGRAM_NAME
 
 # Copy files from prior step.
 
-COPY --from=fpm_builder "/output/*"                                  "/output/"
-COPY --from=fpm_builder "/output/linux-amd64/${PROGRAM_NAME}"        "/output/linux-amd64/${PROGRAM_NAME}"
+COPY --from=fpm_builder "/output/*"                           "/output/"
+COPY --from=fpm_builder "/output/linux-amd64/${PROGRAM_NAME}" "/output/linux-amd64/${PROGRAM_NAME}"
 
 USER 1001
 CMD ["/bin/bash"]

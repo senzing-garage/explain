@@ -1,4 +1,4 @@
 /*
-One or two sentence synopsys of the module.  The Senzing XXXX module is...
+Module explain is the implementation of the "senzing-tools explain" command.
 */
 package main
