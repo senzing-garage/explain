@@ -1,5 +1,8 @@
 # explain
 
-Placeholder for [GitHub pages](https://pages.github.com/).
+Placeholder for [GitHub pages].
 
-See [https://hub.senzing.com/explain](https://hub.senzing.com/explain).
+See [GitHub page].
+
+[GitHub page]: https://garage.senzing.com/explain
+[GitHub pages]: https://pages.github.com/
