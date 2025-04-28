@@ -2,6 +2,7 @@ package explainer
 
 import (
 	"context"
+	"errors"
 )
 
 // ----------------------------------------------------------------------------
@@ -87,3 +88,5 @@ var ComponentID2WebPage = map[int]string{
 	6602: page("move"),
 	6620: page("serve-chat"),
 }
+
+var errPackage = errors.New("explainer")

@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/pkg/browser"
+	"github.com/senzing-garage/go-helpers/wraperror"
 )
 
 // ----------------------------------------------------------------------------
@@ -24,23 +25,31 @@ type MessageExplainer struct {
 // ----------------------------------------------------------------------------
 
 func ParseMessage(message string) (int, int, error) {
+	const expectedLength = 8
+
 	var err error
+
 	componentID := 0
 	messageID := 0
 	intString := strings.TrimPrefix(message, "SZSDK")
-	if len(intString) != 8 {
-		return componentID, messageID, fmt.Errorf("could not parse message: %s", message)
+
+	if len(intString) != expectedLength {
+		return componentID, messageID, wraperror.Errorf(errPackage, "could not parse message: %s", message)
 	}
+
 	componentIDString := intString[0:4]
+
 	componentID, err = strconv.Atoi(componentIDString)
 	if err != nil {
-		return componentID, messageID, err
+		return componentID, messageID, wraperror.Errorf(err, "explainer.strconv.Atoi error: %w", err)
 	}
+
 	messageID, err = strconv.Atoi(intString)
 	if err != nil {
-		return componentID, messageID, err
+		return componentID, messageID, wraperror.Errorf(err, "explainer.strconv.Atoi error: %w", err)
 	}
-	return componentID, messageID, err
+
+	return componentID, messageID, wraperror.Errorf(err, "explainer error: %w", err)
 }
 
 // ----------------------------------------------------------------------------
@@ -67,17 +76,18 @@ func (explainer *MessageExplainer) Explain(ctx context.Context) error {
 
 	webpage, ok := ComponentID2WebPage[componentID]
 	if !ok {
-		return fmt.Errorf("no information for --message-id %s", explainer.MessageID)
+		return wraperror.Errorf(errPackage, "no information for --message-id %s", explainer.MessageID)
 	}
 
 	explainURL := fmt.Sprintf("https://%s#SZSDK%d", webpage, messageNumber)
 
-	fmt.Printf("For information on that message, visit %s\n", explainURL)
+	fmt.Printf("For information on that message, visit %s\n", explainURL) //nolint
 
 	// Reference: https://gist.github.com/hyg/9c4afcd91fe24316cbf0
 
 	if !explainer.TtyOnly {
 		err = browser.OpenURL(explainURL)
 	}
-	return err
+
+	return wraperror.Errorf(err, "explainer.Explain error: %w", err)
 }

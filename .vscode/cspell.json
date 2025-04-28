@@ -6,6 +6,7 @@
     "aquilax",
     "buildx",
     "CCLA",
+    "cmdhelping",
     "CODEOWNER",
     "CONFIGPATH",
     "covermode",
@@ -46,8 +47,10 @@
     "szerror",
     "szerrors",
     "szerrortypes",
+    "szhelpers",
     "szinterface",
     "Szproduct",
+    "SZSDK",
     "taskkill",
     "testcoverage",
     "testdata",
@@ -57,6 +60,7 @@
     "wraperror"
   ],
   "ignorePaths": [
+    ".dockerignore",
     ".git/*",
     ".github/linters/.golangci.yaml",
     ".history/*",

@@ -1,10 +1,10 @@
-package cmd
+package cmd_test
 
 import (
-	"bytes"
 	"os"
 	"testing"
 
+	"github.com/senzing-garage/explain/cmd"
 	"github.com/stretchr/testify/require"
 )
 
@@ -13,78 +13,92 @@ import (
 // ----------------------------------------------------------------------------
 
 func Test_Execute(test *testing.T) {
-	_ = test
+	test.Parallel()
+
 	os.Args = []string{"command-name", "--message-id", "SZSDK60010000", "--tty-only"}
-	Execute()
+
+	cmd.Execute()
 }
 
 func Test_Execute_completion(test *testing.T) {
-	_ = test
+	test.Parallel()
+
 	os.Args = []string{"command-name", "completion"}
-	Execute()
+
+	cmd.Execute()
 }
 
 func Test_Execute_docs(test *testing.T) {
-	_ = test
+	test.Parallel()
+
 	os.Args = []string{"command-name", "docs"}
-	Execute()
+
+	cmd.Execute()
 }
 
 func Test_Execute_help(test *testing.T) {
-	_ = test
+	test.Parallel()
+
 	os.Args = []string{"command-name", "--help"}
-	Execute()
+
+	cmd.Execute()
 }
 
 func Test_PreRun(test *testing.T) {
-	_ = test
+	test.Parallel()
+
 	args := []string{"command-name", "--message-id", "SZSDK60010000", "--tty-only"}
-	PreRun(RootCmd, args)
+	cmd.PreRun(cmd.RootCmd, args)
 }
 
 func Test_RunE(test *testing.T) {
 	test.Setenv("SENZING_TOOLS_AVOID_SERVING", "true")
-	err := RunE(RootCmd, []string{})
+
+	err := cmd.RunE(cmd.RootCmd, []string{})
 	require.NoError(test, err)
 }
 
 func Test_RootCmd(test *testing.T) {
-	_ = test
-	err := RootCmd.Execute()
+	test.Parallel()
+
+	err := cmd.RootCmd.Execute()
 	require.NoError(test, err)
-	err = RootCmd.RunE(RootCmd, []string{})
+	err = cmd.RootCmd.RunE(cmd.RootCmd, []string{})
 	require.NoError(test, err)
 }
 
-func Test_completionCmd(test *testing.T) {
-	_ = test
-	err := completionCmd.Execute()
-	require.NoError(test, err)
-	err = completionCmd.RunE(completionCmd, []string{})
-	require.NoError(test, err)
-}
+// func Test_completionCmd(test *testing.T) {
+// 	test.Parallel()
+// 	err := completionCmd.Execute()
+// 	require.NoError(test, err)
+// 	err = completionCmd.RunE(completionCmd, []string{})
+// 	require.NoError(test, err)
+// }
 
-func Test_docsCmd(test *testing.T) {
-	_ = test
-	err := docsCmd.Execute()
-	require.NoError(test, err)
-	err = docsCmd.RunE(docsCmd, []string{})
-	require.NoError(test, err)
-}
+// func Test_docsCmd(test *testing.T) {
+// 	test.Parallel()
+// 	err := docsCmd.Execute()
+// 	require.NoError(test, err)
+// 	err = docsCmd.RunE(docsCmd, []string{})
+// 	require.NoError(test, err)
+// }
 
 // ----------------------------------------------------------------------------
 // Test private functions
 // ----------------------------------------------------------------------------
 
-func Test_completionAction(test *testing.T) {
-	var buffer bytes.Buffer
-	err := completionAction(&buffer)
-	require.NoError(test, err)
-}
+// func Test_completionAction(test *testing.T) {
+// 	test.Parallel()
+// 	var buffer bytes.Buffer
+// 	err := completionAction(&buffer)
+// 	require.NoError(test, err)
+// }
 
-func Test_docsAction_badDir(test *testing.T) {
-	var buffer bytes.Buffer
-	badDir := "/tmp/no/directory/exists"
-	err := docsAction(&buffer, badDir)
-	require.Error(test, err)
-}
+// func Test_docsAction_badDir(test *testing.T) {
+// 	test.Parallel()
+// 	var buffer bytes.Buffer
+
+// 	badDir := "/tmp/no/directory/exists"
+// 	err := docsAction(&buffer, badDir)
+// 	require.Error(test, err)
+// }

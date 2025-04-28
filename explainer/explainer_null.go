@@ -9,8 +9,7 @@ import (
 // ----------------------------------------------------------------------------
 
 // NullExplainer is a "null object" Explainer.
-type NullExplainer struct {
-}
+type NullExplainer struct{}
 
 // ----------------------------------------------------------------------------
 // Constants
@@ -30,6 +29,8 @@ Input
 */
 func (explainer *NullExplainer) Explain(ctx context.Context) error {
 	_ = ctx
+
 	var err error
+
 	return err
 }
