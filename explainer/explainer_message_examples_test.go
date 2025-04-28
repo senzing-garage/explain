@@ -1,7 +1,9 @@
-package explainer
+package explainer_test
 
 import (
 	"context"
+
+	"github.com/senzing-garage/explain/explainer"
 )
 
 // ----------------------------------------------------------------------------
@@ -11,10 +13,11 @@ import (
 func ExampleMessageExplainer_Explain() {
 	// For more information, visit https://github.com/senzing-garage/explain/blob/main/explainer/explainer_message_test.go
 	ctx := context.TODO()
-	explainer := &MessageExplainer{
+	explainer := &explainer.MessageExplainer{
 		MessageID: "SZSDK60010000",
 		TtyOnly:   true,
 	}
+
 	err := explainer.Explain(ctx)
 	if err != nil {
 		panic(err)

@@ -6,7 +6,9 @@ import (
 )
 
 func TestMain(test *testing.T) {
-	_ = test
+	test.Parallel()
+
 	os.Args = []string{"command-name", "--message-id", "SZSDK60010000", "--tty-only"}
+
 	main()
 }

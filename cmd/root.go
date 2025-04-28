@@ -4,6 +4,7 @@ package cmd
 
 import (
 	"context"
+	"fmt"
 	"os"
 
 	"github.com/senzing-garage/explain/explainer"
@@ -59,14 +60,15 @@ func Execute() {
 	}
 }
 
-// Used in construction of cobra.Command
+// Used in construction of cobra.Command.
 func PreRun(cobraCommand *cobra.Command, args []string) {
 	cmdhelper.PreRun(cobraCommand, args, Use, ContextVariables)
 }
 
-// Used in construction of cobra.Command
+// Used in construction of cobra.Command.
 func RunE(_ *cobra.Command, _ []string) error {
 	ctx := context.Background()
+
 	var anExplainer explainer.Explainer
 
 	// Choose and run explainer.
@@ -79,10 +81,15 @@ func RunE(_ *cobra.Command, _ []string) error {
 	} else {
 		anExplainer = &explainer.NullExplainer{}
 	}
-	return anExplainer.Explain(ctx)
+
+	if err := anExplainer.Explain(ctx); err != nil {
+		return fmt.Errorf("explain.Explain failed: %w", err)
+	}
+
+	return nil
 }
 
-// Used in construction of cobra.Command
+// Used in construction of cobra.Command.
 func Version() string {
 	return cmdhelper.Version(githubVersion, githubIteration)
 }

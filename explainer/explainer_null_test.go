@@ -1,9 +1,9 @@
-package explainer
+package explainer_test
 
 import (
-	"context"
 	"testing"
 
+	"github.com/senzing-garage/explain/explainer"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -12,8 +12,9 @@ import (
 // ----------------------------------------------------------------------------
 
 func TestNullExplainer(test *testing.T) {
-	ctx := context.TODO()
-	testObject := &NullExplainer{}
+	test.Parallel()
+	ctx := test.Context()
+	testObject := &explainer.NullExplainer{}
 	err := testObject.Explain(ctx)
 	assert.NoError(test, err)
 }

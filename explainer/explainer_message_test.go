@@ -1,9 +1,9 @@
-package explainer
+package explainer_test
 
 import (
-	"context"
 	"testing"
 
+	"github.com/senzing-garage/explain/explainer"
 	"github.com/stretchr/testify/require"
 )
 
@@ -12,8 +12,9 @@ import (
 // ----------------------------------------------------------------------------
 
 func TestMessageExplainer_Explain(test *testing.T) {
-	ctx := context.TODO()
-	testObject := &MessageExplainer{
+	test.Parallel()
+	ctx := test.Context()
+	testObject := &explainer.MessageExplainer{
 		MessageID: "SZSDK60010000",
 		TtyOnly:   true,
 	}
@@ -22,8 +23,9 @@ func TestMessageExplainer_Explain(test *testing.T) {
 }
 
 func TestMessageExplainer_Explain_badMessageID(test *testing.T) {
-	ctx := context.TODO()
-	testObject := &MessageExplainer{
+	test.Parallel()
+	ctx := test.Context()
+	testObject := &explainer.MessageExplainer{
 		MessageID: "SZSDK6A010000",
 		TtyOnly:   true,
 	}
@@ -32,8 +34,9 @@ func TestMessageExplainer_Explain_badMessageID(test *testing.T) {
 }
 
 func TestMessageExplainer_Explain_badComponentID(test *testing.T) {
-	ctx := context.TODO()
-	testObject := &MessageExplainer{
+	test.Parallel()
+	ctx := test.Context()
+	testObject := &explainer.MessageExplainer{
 		MessageID: "SZSDK99980000",
 		TtyOnly:   true,
 	}
