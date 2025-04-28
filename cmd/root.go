@@ -4,12 +4,12 @@ package cmd
 
 import (
 	"context"
+	"fmt"
 	"os"
 
 	"github.com/senzing-garage/explain/explainer"
 	"github.com/senzing-garage/go-cmdhelping/cmdhelper"
 	"github.com/senzing-garage/go-cmdhelping/option"
-	"github.com/senzing-garage/go-helpers/wraperror"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -82,9 +82,11 @@ func RunE(_ *cobra.Command, _ []string) error {
 		anExplainer = &explainer.NullExplainer{}
 	}
 
-	err := anExplainer.Explain(ctx)
+	if err := anExplainer.Explain(ctx); err != nil {
+		return fmt.Errorf("explain.Explain failed: %w", err)
+	}
 
-	return wraperror.Errorf(err, "cmd.RunE error: %w", err)
+	return nil
 }
 
 // Used in construction of cobra.Command.
