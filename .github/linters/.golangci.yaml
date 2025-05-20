@@ -140,7 +140,6 @@ linters:
         - empty
         - error
         - stdlib
-
 formatters:
   enable:
     - gci
