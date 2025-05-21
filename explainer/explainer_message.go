@@ -41,15 +41,15 @@ func ParseMessage(message string) (int, int, error) {
 
 	componentID, err = strconv.Atoi(componentIDString)
 	if err != nil {
-		return componentID, messageID, wraperror.Errorf(err, "explainer.strconv.Atoi error: %w", err)
+		return componentID, messageID, wraperror.Errorf(err, "componentIDString strconv.Atoi(%s)", componentIDString)
 	}
 
 	messageID, err = strconv.Atoi(intString)
 	if err != nil {
-		return componentID, messageID, wraperror.Errorf(err, "explainer.strconv.Atoi error: %w", err)
+		return componentID, messageID, wraperror.Errorf(err, "intString strconv.Atoi(%s)", intString)
 	}
 
-	return componentID, messageID, wraperror.Errorf(err, "explainer error: %w", err)
+	return componentID, messageID, wraperror.Errorf(err, wraperror.NoMessage)
 }
 
 // ----------------------------------------------------------------------------
@@ -89,5 +89,5 @@ func (explainer *MessageExplainer) Explain(ctx context.Context) error {
 		err = browser.OpenURL(explainURL)
 	}
 
-	return wraperror.Errorf(err, "explainer.Explain error: %w", err)
+	return wraperror.Errorf(err, wraperror.NoMessage)
 }
