@@ -1,10 +1,10 @@
 module github.com/senzing-garage/explain
 
-go 1.24
+go 1.24.4
 
 require (
 	github.com/pkg/browser v0.0.0-20240102092130-5ac0b6a4141c
-	github.com/senzing-garage/go-cmdhelping v0.3.6
+	github.com/senzing-garage/go-cmdhelping v0.3.7
 	github.com/senzing-garage/go-helpers v0.6.13
 	github.com/spf13/cobra v1.9.1
 	github.com/spf13/viper v1.20.1
