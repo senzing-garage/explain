@@ -2,9 +2,9 @@
 # Stages
 # -----------------------------------------------------------------------------
 
-ARG IMAGE_BUILDER=golang:1.24.1-bookworm
-ARG IMAGE_FPM=dockter/fpm:latest
-ARG IMAGE_FINAL=alpine
+ARG IMAGE_BUILDER=golang:1.25.1-bookworm@sha256:028d35aae29e3e768a7330f4622af402b45e0be58ff5acd49e1eb4f9940f83e0
+ARG IMAGE_FPM=dockter/fpm:1.1.0
+ARG IMAGE_FINAL=alpine:3.22.1
 
 # -----------------------------------------------------------------------------
 # Stage: builder
@@ -14,12 +14,12 @@ FROM ${IMAGE_BUILDER} AS builder
 ENV REFRESHED_AT=2024-07-01
 LABEL Name="senzing/go-builder" \
       Maintainer="support@senzing.com" \
-      Version="0.1.0"
+      Version="0.3.3"
 
 # Build arguments.
 
 ARG PROGRAM_NAME="unknown"
-ARG BUILD_VERSION=0.0.0
+ARG BUILD_VERSION=0.3.3
 ARG BUILD_ITERATION=0
 ARG GO_PACKAGE_NAME="unknown"
 
@@ -48,7 +48,7 @@ FROM ${IMAGE_FPM} AS fpm
 ENV REFRESHED_AT=2024-07-01
 LABEL Name="senzing/fpm-builder" \
       Maintainer="support@senzing.com" \
-      Version="0.1.0"
+      Version="0.3.3"
 
 # Use arguments from prior stage.
 
@@ -92,7 +92,7 @@ FROM ${IMAGE_FINAL} AS final
 ENV REFRESHED_AT=2024-07-01
 LABEL Name="senzing/final-stage" \
       Maintainer="support@senzing.com" \
-      Version="0.1.0"
+      Version="0.3.3"
 HEALTHCHECK CMD ["/app/healthcheck.sh"]
 
 # Copy files from repository.
