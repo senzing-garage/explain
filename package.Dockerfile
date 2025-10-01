@@ -4,7 +4,7 @@
 
 ARG IMAGE_BUILDER=golang:1.25.1-bookworm@sha256:028d35aae29e3e768a7330f4622af402b45e0be58ff5acd49e1eb4f9940f83e0
 ARG IMAGE_FPM=dockter/fpm:1.1.0
-ARG IMAGE_FINAL=alpine
+ARG IMAGE_FINAL=alpine:3.22.1
 
 # -----------------------------------------------------------------------------
 # Stage: builder
