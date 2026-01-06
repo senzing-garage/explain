@@ -218,7 +218,7 @@ Create a code coverage map.
 
    ```console
    cd ${GIT_REPOSITORY_DIR}/target
-  sudo apt install ./explain-0.0.0.deb
+   sudo apt install ./explain-0.0.0.deb
 
    ```
 

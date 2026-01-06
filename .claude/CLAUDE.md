@@ -44,6 +44,7 @@ type Explainer interface {
 ```
 
 Implementations:
+
 - **MessageExplainer** - Parses `SZSDK` message IDs, maps component IDs to documentation pages, and opens browser
 - **NullExplainer** - Null object pattern; returns nil when no message ID is provided
 

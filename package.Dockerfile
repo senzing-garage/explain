@@ -14,12 +14,12 @@ FROM ${IMAGE_BUILDER} AS builder
 ENV REFRESHED_AT=2025-12-22
 LABEL Name="senzing/go-builder" \
       Maintainer="support@senzing.com" \
-      Version="0.3.3"
+      Version="0.3.4"
 
 # Build arguments.
 
 ARG PROGRAM_NAME="unknown"
-ARG BUILD_VERSION=0.3.3
+ARG BUILD_VERSION=0.3.4
 ARG BUILD_ITERATION=0
 ARG GO_PACKAGE_NAME="unknown"
 
@@ -48,7 +48,7 @@ FROM ${IMAGE_FPM} AS fpm
 ENV REFRESHED_AT=2025-12-22
 LABEL Name="senzing/fpm-builder" \
       Maintainer="support@senzing.com" \
-      Version="0.3.3"
+      Version="0.3.4"
 
 # Use arguments from prior stage.
 
@@ -92,7 +92,7 @@ FROM ${IMAGE_FINAL} AS final
 ENV REFRESHED_AT=2025-12-22
 LABEL Name="senzing/final-stage" \
       Maintainer="support@senzing.com" \
-      Version="0.3.3"
+      Version="0.3.4"
 HEALTHCHECK CMD ["/app/healthcheck.sh"]
 
 # Copy files from repository.
