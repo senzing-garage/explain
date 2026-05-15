@@ -15,7 +15,7 @@ func TestMessageExplainer_Explain(test *testing.T) {
 	test.Parallel()
 	ctx := test.Context()
 	testObject := &explainer.MessageExplainer{
-		MessageID: "SZSDK60010000",
+		MessageID: testMessageID,
 		TtyOnly:   true,
 	}
 	err := testObject.Explain(ctx)
