@@ -7,6 +7,8 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+const testMessageID = "SZSDK60010000"
+
 // ----------------------------------------------------------------------------
 // Test public functions
 // ----------------------------------------------------------------------------
@@ -14,8 +16,7 @@ import (
 func TestParseMessage(test *testing.T) {
 	test.Parallel()
 
-	messageID := "SZSDK60010000"
-	_, _, err := explainer.ParseMessage(messageID)
+	_, _, err := explainer.ParseMessage(testMessageID)
 	require.NoError(test, err)
 }
 

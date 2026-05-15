@@ -14,7 +14,7 @@ func ExampleMessageExplainer_Explain() {
 	// For more information, visit https://github.com/senzing-garage/explain/blob/main/explainer/explainer_message_test.go
 	ctx := context.TODO()
 	explainer := &explainer.MessageExplainer{
-		MessageID: "SZSDK60010000",
+		MessageID: testMessageID,
 		TtyOnly:   true,
 	}
 
