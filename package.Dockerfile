@@ -2,24 +2,24 @@
 # Stages
 # -----------------------------------------------------------------------------
 
-ARG IMAGE_BUILDER=golang:1.25.1-bookworm@sha256:028d35aae29e3e768a7330f4622af402b45e0be58ff5acd49e1eb4f9940f83e0
-ARG IMAGE_FPM=dockter/fpm:1.1.0
-ARG IMAGE_FINAL=alpine:3.22.1
+ARG IMAGE_BUILDER=golang:1.27.1-bookworm@sha256:648f440f42a0958804efb24df176f806f9d353b41f1c0627f666428e40310f6b
+ARG IMAGE_FPM=dockter/fpm:1.1.0@sha256:a92ac598d35f1a7a4a659e26bd0e1bd25f317aafdcd4be8bf2795314c421d89b
+ARG IMAGE_FINAL=alpine@sha256:5b10f432ef3da1b8d4c7eb6c487f2f5a8f096bc91145e68878dd4a5019afde11
 
 # -----------------------------------------------------------------------------
 # Stage: builder
 # -----------------------------------------------------------------------------
 
 FROM ${IMAGE_BUILDER} AS builder
-ENV REFRESHED_AT=2025-12-22
+ENV REFRESHED_AT=2026-10-08
 LABEL Name="senzing/go-builder" \
       Maintainer="support@senzing.com" \
-      Version="0.3.4"
+      Version="0.4.0"
 
 # Build arguments.
 
 ARG PROGRAM_NAME="unknown"
-ARG BUILD_VERSION=0.3.4
+ARG BUILD_VERSION=0.4.0
 ARG BUILD_ITERATION=0
 ARG GO_PACKAGE_NAME="unknown"
 
@@ -45,10 +45,10 @@ RUN mkdir -p /output \
 # -----------------------------------------------------------------------------
 
 FROM ${IMAGE_FPM} AS fpm
-ENV REFRESHED_AT=2025-12-22
+ENV REFRESHED_AT=2026-10-08
 LABEL Name="senzing/fpm-builder" \
       Maintainer="support@senzing.com" \
-      Version="0.3.4"
+      Version="0.4.0"
 
 # Use arguments from prior stage.
 
@@ -89,10 +89,10 @@ RUN fpm \
 # -----------------------------------------------------------------------------
 
 FROM ${IMAGE_FINAL} AS final
-ENV REFRESHED_AT=2025-12-22
+ENV REFRESHED_AT=2026-10-08
 LABEL Name="senzing/final-stage" \
       Maintainer="support@senzing.com" \
-      Version="0.3.4"
+      Version="0.4.0"
 HEALTHCHECK CMD ["/app/healthcheck.sh"]
 
 # Copy files from repository.
